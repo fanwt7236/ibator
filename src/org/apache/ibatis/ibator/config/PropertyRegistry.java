@@ -57,4 +57,8 @@ public class PropertyRegistry {
     public static final String MODEL_GENERATOR_TRIM_STRINGS = "trimStrings"; //$NON-NLS-1$
     
     public static final String COMMENT_GENERATOR_SUPPRESS_DATE = "suppressDate"; //$NON-NLS-1$
+    
+    //TODO add by fanwt7236@163.com
+    public static final String IGNORE_FIELD = "ignoreField";
+    public static final String DEFAULT_CHARSET = "charset";
 }

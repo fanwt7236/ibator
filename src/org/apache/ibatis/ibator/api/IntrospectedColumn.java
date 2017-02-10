@@ -31,6 +31,9 @@ import org.apache.ibatis.ibator.internal.util.StringUtility;
 public class IntrospectedColumn {
     protected String actualColumnName;
     
+    //TODO 数据库字段描述 2017-02-10
+    protected String comment;
+    
     protected int jdbcType;
     
     protected String jdbcTypeName;
@@ -73,6 +76,14 @@ public class IntrospectedColumn {
     public void setJdbcType(int jdbcType) {
         this.jdbcType = jdbcType;
     }
+    
+    public String getComment() {
+		return comment;
+	}
+    
+    public void setComment(String comment) {
+		this.comment = comment;
+	}
 
     public int getLength() {
         return length;

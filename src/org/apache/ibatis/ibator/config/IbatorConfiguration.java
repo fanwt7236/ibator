@@ -28,8 +28,9 @@ import org.apache.ibatis.ibator.internal.util.messages.Messages;
 /**
  * 
  * @author Jeff Butler
+ * TODO 添加继承关系
  */
-public class IbatorConfiguration {
+public class IbatorConfiguration extends PropertyHolder{
     
     private List<IbatorContext> ibatorContexts;
     private List<String> classPathEntries;

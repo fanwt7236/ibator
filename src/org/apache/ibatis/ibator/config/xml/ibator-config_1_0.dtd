@@ -34,7 +34,8 @@
 <!--
   The ibatorConfiguration element is the root element for ibator configurations.
 -->
-<!ELEMENT ibatorConfiguration (properties?, classPathEntry*, ibatorContext+)>
+<!-- 添加property* 2017-02-10 -->
+<!ELEMENT ibatorConfiguration (property*, properties?, classPathEntry*, ibatorContext+)>
                         
 <!--
   The properties element is used to define a standard Java properties file

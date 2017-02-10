@@ -17,8 +17,9 @@ package org.apache.ibatis.ibator.api;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ import java.util.Set;
 import org.apache.ibatis.ibator.config.IbatorConfiguration;
 import org.apache.ibatis.ibator.config.IbatorContext;
 import org.apache.ibatis.ibator.config.MergeConstants;
+import org.apache.ibatis.ibator.config.PropertyRegistry;
 import org.apache.ibatis.ibator.exception.InvalidConfigurationException;
 import org.apache.ibatis.ibator.exception.ShellException;
 import org.apache.ibatis.ibator.internal.DefaultShellCallback;
@@ -35,6 +37,7 @@ import org.apache.ibatis.ibator.internal.IbatorObjectFactory;
 import org.apache.ibatis.ibator.internal.NullProgressCallback;
 import org.apache.ibatis.ibator.internal.XmlFileMergerJaxp;
 import org.apache.ibatis.ibator.internal.util.ClassloaderUtility;
+import org.apache.ibatis.ibator.internal.util.StringUtility;
 import org.apache.ibatis.ibator.internal.util.messages.Messages;
 
 /**
@@ -301,7 +304,13 @@ public class Ibator {
      * @param content
      */
     private void writeFile(File file, String content) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file, false));
+    	//TODO:添加指定编码 2017-02-10
+    	String charset = "UTF-8";
+    	String cs = this.ibatorConfiguration.getProperty(PropertyRegistry.DEFAULT_CHARSET);
+    	if(StringUtility.stringHasValue(cs)){
+    		charset = cs;
+    	}
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), charset));
         bw.write(content);
         bw.close();
     }

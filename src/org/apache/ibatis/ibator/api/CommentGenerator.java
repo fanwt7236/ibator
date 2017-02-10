@@ -56,8 +56,9 @@ public interface CommentGenerator {
      * @param table
      * @param columnName
      */
-    public void addFieldComment(Field field, FullyQualifiedTable table, String columnName);
-
+    //TODO 修改参数 2017-02-10
+    public void addFieldComment(Field field, FullyQualifiedTable table, IntrospectedColumn introspectedColumn);
+    
     public void addFieldComment(Field field, FullyQualifiedTable table);
 
     public void addClassComment(InnerClass innerClass, FullyQualifiedTable table);

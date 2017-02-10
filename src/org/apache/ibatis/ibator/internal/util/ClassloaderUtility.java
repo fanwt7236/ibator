@@ -40,7 +40,8 @@ public class ClassloaderUtility {
     private ClassloaderUtility() {
     }
 
-    public static ClassLoader getCustomClassloader(List<String> entries) {
+    @SuppressWarnings("deprecation")
+	public static ClassLoader getCustomClassloader(List<String> entries) {
         List<URL> urls = new ArrayList<URL>();
         File file;
 

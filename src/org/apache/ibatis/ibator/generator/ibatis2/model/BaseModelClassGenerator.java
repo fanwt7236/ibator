@@ -55,9 +55,10 @@ public abstract class BaseModelClassGenerator extends AbstractJavaGenerator {
         field.setVisibility(JavaVisibility.PRIVATE);
         field.setType(fqjt);
         field.setName(property);
+        //TODO 修改传入参数以消除编译错误
         ibatorContext.getCommentGenerator().addFieldComment(field,
                 introspectedTable.getFullyQualifiedTable(),
-                introspectedColumn.getActualColumnName());
+                introspectedColumn);
 
         return field;
     }

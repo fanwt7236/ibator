@@ -30,8 +30,8 @@ public class MergeConstants {
      */
     private MergeConstants() {
     }
-    
-    public static final String NEW_XML_ELEMENT_PREFIX = "ibatorgenerated_"; //$NON-NLS-1$
+    //TODO 删除了ibatorgenerated_,使生成的sql美观一些 2017-02-10
+    public static final String NEW_XML_ELEMENT_PREFIX = ""; //$NON-NLS-1$
     public static final String[] OLD_XML_ELEMENT_PREFIXES =
         {"ibatorgenerated_", "abatorgenerated_"}; //$NON-NLS-1$ //$NON-NLS-2$
     

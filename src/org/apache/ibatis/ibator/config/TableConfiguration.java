@@ -80,12 +80,13 @@ public class TableConfiguration extends PropertyHolder {
 
 		insertStatementEnabled = true;
 		selectByPrimaryKeyStatementEnabled = true;
-		selectByExampleStatementEnabled = true;
 		updateByPrimaryKeyStatementEnabled = true;
 		deleteByPrimaryKeyStatementEnabled = true;
-		deleteByExampleStatementEnabled = true;
-        countByExampleStatementEnabled = true;
-        updateByExampleStatementEnabled = true;
+		//TODO 包含Example的全部默认false 2017-02-10
+		selectByExampleStatementEnabled = false;
+		deleteByExampleStatementEnabled = false;
+        countByExampleStatementEnabled = false;
+        updateByExampleStatementEnabled = false;
 	}
 
 	public boolean isDeleteByPrimaryKeyStatementEnabled() {

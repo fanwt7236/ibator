@@ -184,6 +184,8 @@ public class IbatorConfigurationParser {
                 parseClassPathEntry(ibatorConfiguration, childNode);
             } else if ("ibatorContext".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseIbatorContext(ibatorConfiguration, childNode);
+            } else if ("property".equals(childNode.getNodeName())){//TODO 添加识别property 2017-02-10
+            	parseProperty(ibatorConfiguration, childNode);
             }
         }
 

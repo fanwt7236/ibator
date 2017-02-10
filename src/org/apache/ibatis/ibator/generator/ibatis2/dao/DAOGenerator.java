@@ -91,8 +91,12 @@ public class DAOGenerator extends AbstractJavaGenerator {
         addUpdateByPrimaryKeyWithoutBLOBsMethod(topLevelClass, interfaze);
         
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
-        if (ibatorContext.getPlugins().daoImplementationGenerated(topLevelClass, introspectedTable)) {
-            answer.add(topLevelClass);
+        //TODO 复用implementationPackage属性，如果有定义则生成dao实现，如果没有就不生成
+        String impPackage = ibatorContext.getDaoGeneratorConfiguration().getImplementationPackage();
+        if(StringUtility.stringHasValue(impPackage)){
+        	if (ibatorContext.getPlugins().daoImplementationGenerated(topLevelClass, introspectedTable)) {
+        		answer.add(topLevelClass);
+        	}
         }
         
         if (ibatorContext.getPlugins().daoInterfaceGenerated(interfaze, introspectedTable)) {

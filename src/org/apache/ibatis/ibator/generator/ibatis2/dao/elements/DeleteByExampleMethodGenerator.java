@@ -43,10 +43,10 @@ public class DeleteByExampleMethodGenerator extends AbstractDAOElementGenerator 
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = getMethodShell(importedTypes);
 
-        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
         StringBuilder sb = new StringBuilder();
         sb.append("int rows = "); //$NON-NLS-1$
-        sb.append(daoTemplate.getDeleteMethod(table.getSqlMapNamespace(),
+        //TODO 修改默认namespace 2017-02-10
+        sb.append(daoTemplate.getDeleteMethod(introspectedTable.getBaseRecordType().getFullyQualifiedName(),
                 XmlConstants.DELETE_BY_EXAMPLE_STATEMENT_ID, "example")); //$NON-NLS-1$
         method.addBodyLine(sb.toString());
         method.addBodyLine("return rows;"); //$NON-NLS-1$

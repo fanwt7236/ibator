@@ -75,8 +75,8 @@ public class DeleteByPrimaryKeyMethodGenerator extends AbstractDAOElementGenerat
 
         sb.setLength(0);
         sb.append("int rows = "); //$NON-NLS-1$
-        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
-        sb.append(daoTemplate.getDeleteMethod(table.getSqlMapNamespace(),
+        //TODO 修改默认namespace 2017-02-10
+        sb.append(daoTemplate.getDeleteMethod(introspectedTable.getBaseRecordType().getFullyQualifiedName(),
                 XmlConstants.DELETE_BY_PRIMARY_KEY_STATEMENT_ID, "key")); //$NON-NLS-1$
         method.addBodyLine(sb.toString());
         method.addBodyLine("return rows;"); //$NON-NLS-1$

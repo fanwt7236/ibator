@@ -27,6 +27,7 @@ import org.apache.ibatis.ibator.api.dom.java.Interface;
 import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
 import org.apache.ibatis.ibator.api.dom.java.Method;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
+import org.apache.ibatis.ibator.config.DAOGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.PropertyRegistry;
 import org.apache.ibatis.ibator.generator.AbstractJavaGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.AbstractDAOElementGenerator;
@@ -110,7 +111,11 @@ public class DAOGenerator extends AbstractJavaGenerator {
         
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
         //TODO 复用implementationPackage属性，如果有定义则生成dao实现，如果没有就不生成
-        String impPackage = ibatorContext.getDaoGeneratorConfiguration().getImplementationPackage();
+        DAOGeneratorConfiguration daoGeneratorConfiguration = ibatorContext.getDaoGeneratorConfiguration();
+        if(daoGeneratorConfiguration == null){
+        	return answer;
+        }
+        String impPackage = daoGeneratorConfiguration.getImplementationPackage();
         if(StringUtility.stringHasValue(impPackage)){
         	if (ibatorContext.getPlugins().daoImplementationGenerated(topLevelClass, introspectedTable)) {
         		answer.add(topLevelClass);
@@ -222,7 +227,7 @@ public class DAOGenerator extends AbstractJavaGenerator {
         answer.setVisibility(JavaVisibility.PUBLIC);
 
         String rootInterface = introspectedTable.getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
-        if (rootInterface == null) {
+        if (rootInterface == null && ibatorContext.getDaoGeneratorConfiguration() != null) {
             rootInterface = ibatorContext.getDaoGeneratorConfiguration().getProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
         }
         

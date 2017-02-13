@@ -138,6 +138,10 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
             }
         }
         
+        if(ibatorContext.getDaoGeneratorConfiguration() == null){
+        	return answer;
+        }
+        
         for (AbstractJavaGenerator javaGenerator : daoGenerators) {
             List<CompilationUnit> compilationUnits = javaGenerator.getCompilationUnits();
             for (CompilationUnit compilationUnit : compilationUnits) {

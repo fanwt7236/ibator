@@ -504,6 +504,10 @@ public abstract class IntrospectedTable {
     private void calculateDAOImplementationPackage() {
         DAOGeneratorConfiguration config = ibatorContext.getDaoGeneratorConfiguration();
         
+        if(config == null){
+        	return ;
+        }
+        
         StringBuilder sb = new StringBuilder();
         if (StringUtility.stringHasValue(config.getImplementationPackage())) {
             sb.append(config.getImplementationPackage());
@@ -519,7 +523,9 @@ public abstract class IntrospectedTable {
     
     private void calculateDAOInterfacePackage() {
         DAOGeneratorConfiguration config = ibatorContext.getDaoGeneratorConfiguration();
-        
+        if(config == null){
+        	return ;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(config.getTargetPackage());
         if (StringUtility.isTrue(config.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES))) {

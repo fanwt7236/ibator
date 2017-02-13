@@ -42,6 +42,34 @@ public abstract class IbatorRules {
         this.tableConfiguration = tableConfiguration;
         this.introspectedTable = introspectedTable;
     }
+    
+    public boolean generateInsertSimple(){
+    	return tableConfiguration.isInsertEnabled();
+    }
+    
+    public boolean generateCount(){
+    	return tableConfiguration.isCountEnabled();
+    }
+    
+    public boolean generateDelete(){
+    	return tableConfiguration.isDeleteEnabled();
+    }
+    
+    public boolean generateUpdate(){
+    	return tableConfiguration.isUpdateEnabled();
+    }
+    
+    public boolean generateUpdateByEntity(){
+    	return tableConfiguration.isUpdateByEntityEnabled();
+    }
+    
+    public boolean generateSelectOne(){
+    	return tableConfiguration.isSelectOneEnabled();
+    }
+    
+    public boolean generateSelectList(){
+    	return tableConfiguration.isSelectListEnabled();
+    }
 
     /**
      * Implements the rule for generating the insert SQL Map element and DAO
@@ -173,7 +201,9 @@ public abstract class IbatorRules {
      */
     public boolean generateBaseResultMap() {
         boolean rc = tableConfiguration.isSelectByExampleStatementEnabled()
-            || tableConfiguration.isSelectByPrimaryKeyStatementEnabled();
+            || tableConfiguration.isSelectByPrimaryKeyStatementEnabled()
+            || tableConfiguration.isSelectOneEnabled()
+            || tableConfiguration.isSelectListEnabled();
         
         return rc;
     }

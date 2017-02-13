@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.ibatis.ibator.api.dom.OutputUtilities;
+import org.apache.ibatis.ibator.internal.util.StringUtility;
 
 /**
  * @author Jeff Butler
@@ -101,6 +102,9 @@ public class Method extends JavaElement {
                 sb.append("void"); //$NON-NLS-1$
             } else {
                 sb.append(getReturnType().getShortName());
+                if(StringUtility.stringHasValue(getReturnType().getExtName())){
+                	sb.append("<").append(getReturnType().getExtName()).append(">");
+                }
             }
             sb.append(' ');
         }

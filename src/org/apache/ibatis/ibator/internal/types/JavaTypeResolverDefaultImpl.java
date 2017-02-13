@@ -104,10 +104,9 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
 			    answer = new FullyQualifiedJavaType(BigDecimal.class.getName());
 			} else if (introspectedColumn.getLength() > 9) {
 			    answer = new FullyQualifiedJavaType(Long.class.getName());
-			} else if (introspectedColumn.getLength() > 4) {
-			    answer = new FullyQualifiedJavaType(Integer.class.getName());
 			} else {
-			    answer = new FullyQualifiedJavaType(Short.class.getName());
+				//TODO 数字的话只用BigDecimal Long Integer,Short之类的不常用类型就不用了 2017-02-11
+				answer = new FullyQualifiedJavaType(Integer.class.getName());
 			}
 			break;
 
@@ -148,10 +147,9 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
 			    answer = new FullyQualifiedJavaType(BigDecimal.class.getName());
 			} else if (introspectedColumn.getLength() > 9) {
 			    answer = new FullyQualifiedJavaType(Long.class.getName());
-			} else if (introspectedColumn.getLength() > 4) {
-			    answer = new FullyQualifiedJavaType(Integer.class.getName());
 			} else {
-			    answer = new FullyQualifiedJavaType(Short.class.getName());
+				//TODO 数字的话只用BigDecimal Long Integer,Short之类的不常用类型就不用了 2017-02-11
+			    answer = new FullyQualifiedJavaType(Integer.class.getName());
 			}
 			break;
 
@@ -184,7 +182,8 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
 			break;
 
 		case Types.TINYINT:
-		    answer = new FullyQualifiedJavaType(Byte.class.getName());
+			//TODO TINYINT我常用来表示状态 2017-02-11
+		    answer = new FullyQualifiedJavaType(Integer.class.getName());
 			break;
 
 		case Types.VARBINARY:

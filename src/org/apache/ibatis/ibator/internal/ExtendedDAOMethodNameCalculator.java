@@ -234,4 +234,39 @@ public class ExtendedDAOMethodNameCalculator implements DAOMethodNameCalculator 
         
         return sb.toString();
     }
+
+	@Override
+	public String getSimpleInsertMethodName(IntrospectedTable introspectedTable) {
+		return null;
+	}
+
+	@Override
+	public String getCountMethodName(IntrospectedTable introspectedTable) {
+		return null;
+	}
+
+	@Override
+	public String getUpdateMethodName(IntrospectedTable introspectedTable) {
+		return null;
+	}
+
+	@Override
+	public String getDeleteMethodName(IntrospectedTable introspectedTable) {
+		return null;
+	}
+
+	@Override
+	public String getUpdateByEntityMethodName(IntrospectedTable introspectedTable) {
+		return null;
+	}
+
+	@Override
+	public String getSelectOneMethodName(IntrospectedTable introspectedTable) {
+		return null;
+	}
+
+	@Override
+	public String getSelectListMethodName(IntrospectedTable introspectedTable) {
+		return null;
+	}
 }

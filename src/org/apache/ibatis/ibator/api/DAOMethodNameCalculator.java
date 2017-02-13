@@ -140,5 +140,14 @@ public interface DAOMethodNameCalculator {
      * @param introspectedTable
      * @return the calculated name
      */
-    String getUpdateByExampleWithoutBLOBsMethodName(IntrospectedTable introspectedTable);    
+    String getUpdateByExampleWithoutBLOBsMethodName(IntrospectedTable introspectedTable);   
+    
+    //TODO 2017-02-13
+    String getSimpleInsertMethodName(IntrospectedTable introspectedTable);
+    String getCountMethodName(IntrospectedTable introspectedTable);
+    String getUpdateMethodName(IntrospectedTable introspectedTable);
+    String getDeleteMethodName(IntrospectedTable introspectedTable);
+    String getUpdateByEntityMethodName(IntrospectedTable introspectedTable);
+    String getSelectOneMethodName(IntrospectedTable introspectedTable);
+    String getSelectListMethodName(IntrospectedTable introspectedTable);
 }

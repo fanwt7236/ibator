@@ -158,6 +158,13 @@
   enableUpdateByExample CDATA #IMPLIED
   selectByPrimaryKeyQueryId CDATA #IMPLIED
   selectByExampleQueryId CDATA #IMPLIED
+  insert CDATA #IMPLIED
+  update CDATA #IMPLIED
+  updateByEntity CDATA #IMPLIED
+  count CDATA #IMPLIED
+  delete CDATA #IMPLIED
+  selectOne CDATA #IMPLIED
+  selectList CDATA #IMPLIED
   modelType CDATA #IMPLIED
   escapeWildcards CDATA #IMPLIED
   delimitIdentifiers CDATA #IMPLIED>

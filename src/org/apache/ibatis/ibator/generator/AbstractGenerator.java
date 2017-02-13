@@ -67,4 +67,9 @@ public abstract class AbstractGenerator {
     public void setProgressCallback(ProgressCallback progressCallback) {
         this.progressCallback = progressCallback;
     }
+    
+    protected String paramBaseRecord(){
+    	String shortName = this.introspectedTable.getBaseRecordType().getShortName();
+    	return String.valueOf(shortName.charAt(0)).toLowerCase() + shortName.substring(1);
+    }
 }

@@ -18,6 +18,7 @@ package org.apache.ibatis.ibator.internal;
 import java.util.List;
 
 import org.apache.ibatis.ibator.api.CommentGenerator;
+import org.apache.ibatis.ibator.api.DefaultIntrospectedColumn;
 import org.apache.ibatis.ibator.api.FullyQualifiedTable;
 import org.apache.ibatis.ibator.api.IbatorPlugin;
 import org.apache.ibatis.ibator.api.IntrospectedColumn;
@@ -209,7 +210,8 @@ public class IbatorObjectFactory {
     public static IntrospectedColumn createIntrospectedColumn(IbatorContext ibatorContext) {
         String type = ibatorContext.getIntrospectedColumnImpl();
         if (!StringUtility.stringHasValue(type)) {
-            type = IntrospectedColumn.class.getName();
+        	//TODO 修改默认配置 2017-02-11
+            type = DefaultIntrospectedColumn.class.getName();
         }
         
         IntrospectedColumn answer = (IntrospectedColumn) createInternalObject(type);

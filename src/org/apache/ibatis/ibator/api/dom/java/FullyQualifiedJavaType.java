@@ -30,6 +30,7 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
     private static FullyQualifiedJavaType criteriaInstance = null;
     
     private String baseShortName;
+    private String extName;
     
     //  this is the short name including the parameterized types and wildcards
     private String calculatedShortName;
@@ -254,6 +255,14 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
     public int compareTo(FullyQualifiedJavaType other) {
         return fullyQualifiedName.compareTo(other.fullyQualifiedName);
     }
+    
+    public String getExtName() {
+		return extName;
+	}
+    
+    public void setExtName(String extName) {
+		this.extName = extName;
+	}
     
     public void addTypeArgument(FullyQualifiedJavaType type) {
         typeArguments.add(type);

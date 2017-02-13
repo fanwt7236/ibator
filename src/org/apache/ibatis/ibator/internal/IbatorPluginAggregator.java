@@ -45,909 +45,1147 @@ import org.apache.ibatis.ibator.config.IbatorContext;
  * 
  */
 public final class IbatorPluginAggregator implements IbatorPlugin {
-    private List<IbatorPlugin> plugins;
-
-    public IbatorPluginAggregator() {
-        plugins = new ArrayList<IbatorPlugin>();
-    }
-
-    public void addPlugin(IbatorPlugin plugin) {
-        plugins.add(plugin);
-    }
-
-    public void setIbatorContext(IbatorContext ibatorContext) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void setProperties(Properties properties) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean validate(List<String> warnings) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean modelBaseRecordClassGenerated(TopLevelClass tlc,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.modelBaseRecordClassGenerated(tlc, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean modelRecordWithBLOBsClassGenerated(TopLevelClass tlc,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.modelRecordWithBLOBsClassGenerated(tlc,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapCountByExampleElementGenerated(XmlElement element,
-            IntrospectedTable table) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapCountByExampleElementGenerated(element, table)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapDeleteByExampleElementGenerated(XmlElement element,
-            IntrospectedTable table) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapDeleteByExampleElementGenerated(element, table)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapDeleteByPrimaryKeyElementGenerated(XmlElement element,
-            IntrospectedTable table) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin
-                    .sqlMapDeleteByPrimaryKeyElementGenerated(element, table)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean modelExampleClassGenerated(TopLevelClass tlc,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.modelExampleClassGenerated(tlc, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles(
-            IntrospectedTable introspectedTable) {
-        List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
-        for (IbatorPlugin plugin : plugins) {
-            List<GeneratedJavaFile> temp = plugin
-                    .contextGenerateAdditionalJavaFiles(introspectedTable);
-            if (temp != null) {
-                answer.addAll(temp);
-            }
-        }
-        return answer;
-    }
-
-    public List<GeneratedXmlFile> contextGenerateAdditionalXmlFiles(
-            IntrospectedTable introspectedTable) {
-        List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>();
-        for (IbatorPlugin plugin : plugins) {
-            List<GeneratedXmlFile> temp = plugin
-                    .contextGenerateAdditionalXmlFiles(introspectedTable);
-            if (temp != null) {
-                answer.addAll(temp);
-            }
-        }
-        return answer;
-    }
-
-    public boolean modelPrimaryKeyClassGenerated(TopLevelClass tlc,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.modelPrimaryKeyClassGenerated(tlc, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapResultMapWithoutBLOBsElementGenerated(XmlElement element,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin
-                    .sqlMapResultMapWithoutBLOBsElementGenerated(element, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapExampleWhereClauseElementGenerated(XmlElement element,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapExampleWhereClauseElementGenerated(element,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapInsertElementGenerated(XmlElement element,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin
-                    .sqlMapInsertElementGenerated(element, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapResultMapWithBLOBsElementGenerated(XmlElement element,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapResultMapWithBLOBsElementGenerated(element,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapSelectByExampleWithoutBLOBsElementGenerated(XmlElement element,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapSelectByExampleWithoutBLOBsElementGenerated(element,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapSelectByExampleWithBLOBsElementGenerated(
-            XmlElement element, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapSelectByExampleWithBLOBsElementGenerated(element,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapSelectByPrimaryKeyElementGenerated(XmlElement element,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapSelectByPrimaryKeyElementGenerated(element,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapGenerated(GeneratedXmlFile sqlMap,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapGenerated(sqlMap, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapUpdateByExampleSelectiveElementGenerated(
-            XmlElement element, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapUpdateByExampleSelectiveElementGenerated(element,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapUpdateByExampleWithBLOBsElementGenerated(
-            XmlElement element, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapUpdateByExampleWithBLOBsElementGenerated(element,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapUpdateByExampleWithoutBLOBsElementGenerated(
-            XmlElement element, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapUpdateByExampleWithoutBLOBsElementGenerated(
-                    element, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapUpdateByPrimaryKeySelectiveElementGenerated(
-            XmlElement element, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapUpdateByPrimaryKeySelectiveElementGenerated(
-                    element, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapUpdateByPrimaryKeyWithBLOBsElementGenerated(
-            XmlElement element, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapUpdateByPrimaryKeyWithBLOBsElementGenerated(
-                    element, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(
-            XmlElement element, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(
-                    element, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoCountByExampleMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoCountByExampleMethodGenerated(method, interfaze,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoCountByExampleMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoCountByExampleMethodGenerated(method, topLevelClass,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoDeleteByExampleMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoDeleteByExampleMethodGenerated(method, interfaze,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoDeleteByExampleMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoDeleteByExampleMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoDeleteByPrimaryKeyMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoDeleteByPrimaryKeyMethodGenerated(method, interfaze,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoDeleteByPrimaryKeyMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoDeleteByPrimaryKeyMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoImplementationGenerated(TopLevelClass topLevelClass,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoImplementationGenerated(topLevelClass,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoInsertMethodGenerated(Method method, Interface interfaze,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoInsertMethodGenerated(method, interfaze,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoInsertMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoInsertMethodGenerated(method, topLevelClass,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoInterfaceGenerated(Interface interfaze,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoInterfaceGenerated(interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoSelectByExampleWithBLOBsMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoSelectByExampleWithBLOBsMethodGenerated(method,
-                    interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoSelectByExampleWithBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoSelectByExampleWithBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoSelectByExampleWithoutBLOBsMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoSelectByExampleWithoutBLOBsMethodGenerated(method,
-                    interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoSelectByExampleWithoutBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoSelectByExampleWithoutBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoSelectByPrimaryKeyMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoSelectByPrimaryKeyMethodGenerated(method, interfaze,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoSelectByPrimaryKeyMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoSelectByPrimaryKeyMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByExampleSelectiveMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByExampleSelectiveMethodGenerated(method,
-                    interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByExampleSelectiveMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByExampleSelectiveMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByExampleWithBLOBsMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByExampleWithBLOBsMethodGenerated(method,
-                    interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByExampleWithBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByExampleWithBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByExampleWithoutBLOBsMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByExampleWithoutBLOBsMethodGenerated(method,
-                    interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByExampleWithoutBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByExampleWithoutBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByPrimaryKeySelectiveMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByPrimaryKeySelectiveMethodGenerated(method,
-                    interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByPrimaryKeySelectiveMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByPrimaryKeySelectiveMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByPrimaryKeyWithBLOBsMethodGenerated(method,
-                    interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByPrimaryKeyWithBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
-            Method method, Interface interfaze,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
-                    method, interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
-            Method method, TopLevelClass topLevelClass,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
-                    method, topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles() {
-        List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
-        for (IbatorPlugin plugin : plugins) {
-            List<GeneratedJavaFile> temp = plugin
-                    .contextGenerateAdditionalJavaFiles();
-            if (temp != null) {
-                answer.addAll(temp);
-            }
-        }
-        return answer;
-    }
-
-    public List<GeneratedXmlFile> contextGenerateAdditionalXmlFiles() {
-        List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>();
-        for (IbatorPlugin plugin : plugins) {
-            List<GeneratedXmlFile> temp = plugin
-                    .contextGenerateAdditionalXmlFiles();
-            if (temp != null) {
-                answer.addAll(temp);
-            }
-        }
-        return answer;
-    }
-
-    public boolean sqlMapDocumentGenerated(Document document,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.sqlMapDocumentGenerated(document, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean modelFieldGenerated(Field field, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable,
-            IbatorPlugin.ModelClassType modelClassType) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.modelFieldGenerated(field, topLevelClass, introspectedColumn, introspectedTable, modelClassType)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable,
-            IbatorPlugin.ModelClassType modelClassType) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, modelClassType)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable,
-            IbatorPlugin.ModelClassType modelClassType) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.modelSetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, modelClassType)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean sqlMapInsertSelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin
-                    .sqlMapInsertSelectiveElementGenerated(element, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoInsertSelectiveMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoInsertSelectiveMethodGenerated(method, interfaze,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public boolean daoInsertSelectiveMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (IbatorPlugin plugin : plugins) {
-            if (!plugin.daoInsertSelectiveMethodGenerated(method, topLevelClass,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    public void initialized(IntrospectedTable introspectedTable) {
-        for (IbatorPlugin plugin : plugins) {
-            plugin.initialized(introspectedTable);
-        }
-    }
+	private List<IbatorPlugin> plugins;
+
+	public IbatorPluginAggregator() {
+		plugins = new ArrayList<IbatorPlugin>();
+	}
+
+	public void addPlugin(IbatorPlugin plugin) {
+		plugins.add(plugin);
+	}
+
+	public void setIbatorContext(IbatorContext ibatorContext) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setProperties(Properties properties) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean validate(List<String> warnings) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean modelBaseRecordClassGenerated(TopLevelClass tlc, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.modelBaseRecordClassGenerated(tlc, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean modelRecordWithBLOBsClassGenerated(TopLevelClass tlc, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.modelRecordWithBLOBsClassGenerated(tlc, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapCountByExampleElementGenerated(XmlElement element, IntrospectedTable table) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapCountByExampleElementGenerated(element, table)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapDeleteByExampleElementGenerated(XmlElement element, IntrospectedTable table) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapDeleteByExampleElementGenerated(element, table)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapDeleteByPrimaryKeyElementGenerated(XmlElement element, IntrospectedTable table) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapDeleteByPrimaryKeyElementGenerated(element, table)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean modelExampleClassGenerated(TopLevelClass tlc, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.modelExampleClassGenerated(tlc, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles(IntrospectedTable introspectedTable) {
+		List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
+		for (IbatorPlugin plugin : plugins) {
+			List<GeneratedJavaFile> temp = plugin.contextGenerateAdditionalJavaFiles(introspectedTable);
+			if (temp != null) {
+				answer.addAll(temp);
+			}
+		}
+		return answer;
+	}
+
+	public List<GeneratedXmlFile> contextGenerateAdditionalXmlFiles(IntrospectedTable introspectedTable) {
+		List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>();
+		for (IbatorPlugin plugin : plugins) {
+			List<GeneratedXmlFile> temp = plugin.contextGenerateAdditionalXmlFiles(introspectedTable);
+			if (temp != null) {
+				answer.addAll(temp);
+			}
+		}
+		return answer;
+	}
+
+	public boolean modelPrimaryKeyClassGenerated(TopLevelClass tlc, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.modelPrimaryKeyClassGenerated(tlc, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapResultMapWithoutBLOBsElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapResultMapWithoutBLOBsElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapExampleWhereClauseElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapExampleWhereClauseElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapInsertElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapInsertElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapResultMapWithBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapResultMapWithBLOBsElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapSelectByExampleWithoutBLOBsElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapSelectByExampleWithoutBLOBsElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapSelectByExampleWithBLOBsElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapSelectByExampleWithBLOBsElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapSelectByPrimaryKeyElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapSelectByPrimaryKeyElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapGenerated(GeneratedXmlFile sqlMap, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapGenerated(sqlMap, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapUpdateByExampleSelectiveElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapUpdateByExampleSelectiveElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapUpdateByExampleWithBLOBsElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapUpdateByExampleWithBLOBsElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapUpdateByExampleWithoutBLOBsElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapUpdateByExampleWithoutBLOBsElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapUpdateByPrimaryKeySelectiveElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapUpdateByPrimaryKeySelectiveElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapUpdateByPrimaryKeyWithBLOBsElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapUpdateByPrimaryKeyWithBLOBsElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoCountByExampleMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoCountByExampleMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoCountByExampleMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoCountByExampleMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoDeleteByExampleMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoDeleteByExampleMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoDeleteByExampleMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoDeleteByExampleMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoDeleteByPrimaryKeyMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoDeleteByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoDeleteByPrimaryKeyMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoDeleteByPrimaryKeyMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoImplementationGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoImplementationGenerated(topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoInsertMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInsertMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoInsertMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInsertMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoInterfaceGenerated(Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInterfaceGenerated(interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoSelectByExampleWithBLOBsMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectByExampleWithBLOBsMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoSelectByExampleWithBLOBsMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectByExampleWithBLOBsMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoSelectByExampleWithoutBLOBsMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectByExampleWithoutBLOBsMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoSelectByExampleWithoutBLOBsMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectByExampleWithoutBLOBsMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoSelectByPrimaryKeyMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoSelectByPrimaryKeyMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectByPrimaryKeyMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByExampleSelectiveMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByExampleSelectiveMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByExampleSelectiveMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByExampleSelectiveMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByExampleWithBLOBsMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByExampleWithBLOBsMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByExampleWithBLOBsMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByExampleWithBLOBsMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByExampleWithoutBLOBsMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByExampleWithoutBLOBsMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByExampleWithoutBLOBsMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByExampleWithoutBLOBsMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByPrimaryKeySelectiveMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByPrimaryKeySelectiveMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByPrimaryKeySelectiveMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByPrimaryKeySelectiveMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByPrimaryKeyWithBLOBsMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByPrimaryKeyWithBLOBsMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles() {
+		List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
+		for (IbatorPlugin plugin : plugins) {
+			List<GeneratedJavaFile> temp = plugin.contextGenerateAdditionalJavaFiles();
+			if (temp != null) {
+				answer.addAll(temp);
+			}
+		}
+		return answer;
+	}
+
+	public List<GeneratedXmlFile> contextGenerateAdditionalXmlFiles() {
+		List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>();
+		for (IbatorPlugin plugin : plugins) {
+			List<GeneratedXmlFile> temp = plugin.contextGenerateAdditionalXmlFiles();
+			if (temp != null) {
+				answer.addAll(temp);
+			}
+		}
+		return answer;
+	}
+
+	public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapDocumentGenerated(document, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean modelFieldGenerated(Field field, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn,
+			IntrospectedTable introspectedTable, IbatorPlugin.ModelClassType modelClassType) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.modelFieldGenerated(field, topLevelClass, introspectedColumn, introspectedTable,
+					modelClassType)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable,
+			IbatorPlugin.ModelClassType modelClassType) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable,
+					modelClassType)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable,
+			IbatorPlugin.ModelClassType modelClassType) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.modelSetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable,
+					modelClassType)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean sqlMapInsertSelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapInsertSelectiveElementGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoInsertSelectiveMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInsertSelectiveMethodGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public boolean daoInsertSelectiveMethodGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInsertSelectiveMethodGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public void initialized(IntrospectedTable introspectedTable) {
+		for (IbatorPlugin plugin : plugins) {
+			plugin.initialized(introspectedTable);
+		}
+	}
+
+	//TODO 2017-02-13
+	@Override
+	public boolean sqlMapInsertGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapInsertGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean sqlMapCountGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapCountGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean sqlMapDeleteGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapDeleteGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean sqlMapUpdateGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapUpdateGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean sqlMapUpdateByEntityGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapUpdateByEntityGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean sqlMapSelectOneGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapSelectOneGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean sqlMapSelectListGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapSelectListGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoInsertGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInsertGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoCountGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoCountGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoDeleteGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoDeleteGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoUpdateGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoUpdateByEntityGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByEntityGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoSelectOneGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectOneGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoSelectListGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectListGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoInsertGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInsertGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoCountGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoCountGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoDeleteGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoDeleteGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoUpdateGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoUpdateByEntityGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoUpdateByEntityGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoSelectOneGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectOneGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoSelectListGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoSelectListGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+	
+	
 }

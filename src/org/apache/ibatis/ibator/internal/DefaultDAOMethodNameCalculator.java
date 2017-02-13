@@ -158,4 +158,40 @@ public class DefaultDAOMethodNameCalculator implements DAOMethodNameCalculator {
     public String getInsertSelectiveMethodName(IntrospectedTable introspectedTable) {
         return "insertSelective"; //$NON-NLS-1$
     }
+
+    //TODO 2017-02-13
+	@Override
+	public String getSimpleInsertMethodName(IntrospectedTable introspectedTable) {
+		return "insert";
+	}
+
+	@Override
+	public String getCountMethodName(IntrospectedTable introspectedTable) {
+		return "count";
+	}
+
+	@Override
+	public String getUpdateMethodName(IntrospectedTable introspectedTable) {
+		return "update";
+	}
+
+	@Override
+	public String getDeleteMethodName(IntrospectedTable introspectedTable) {
+		return "delete";
+	}
+
+	@Override
+	public String getUpdateByEntityMethodName(IntrospectedTable introspectedTable) {
+		return "updateByEntity";
+	}
+
+	@Override
+	public String getSelectOneMethodName(IntrospectedTable introspectedTable) {
+		return "selectOne";
+	}
+
+	@Override
+	public String getSelectListMethodName(IntrospectedTable introspectedTable) {
+		return "selectList";
+	}
 }

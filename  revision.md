@@ -1,3 +1,25 @@
+## 2017-02-13 扩展生成的方法
+    今天主要修改的有以下几个方面:
+    1.修改各种blob涉及的方法，ibator默认会将blob字段单独处理，但是这些字段不算常用（对我来说），但是又不想偶尔使用一个大文本数据类型造成生成多余的方法，因此计划重写一下IntrospectedColumn中的方法，忽略blob类型单独生成。好在ibator这次提供了扩展的地方，而且还挺合适，在ibator配置文件中可以通过给ibatorContext节点添加introspectedColumnImpl属性即可。修改内容如下:
+    org.apache.ibatis.ibator.internal.IbatorObjectFactory.createIntrospectedColumn 修改默认选项
+    org.apache.ibatis.ibator.api.DefaultIntrospectedColumn 新增并继承IntrospectedColumn，重写isBLOBColumn方法，直接返回false
+    2.修改默认方法
+	目前默认生成的方法有deleteByPrimaryKey、insert、insertSelective、selectByPrimaryKey、updateByPrimaryKeySelective、updateByPrimaryKey  
+	按照个人习惯来讲的话:
+	insert我需要的是insertSelective；
+	update需要的是update和updateByEntity(保留原updateByPrimaryKeySelective方法；另外需要考虑条件字段和更新字段为同一个字段的场景，所以再提供一个updateByEntity方法；这样基本单表更新的场景就可以满足了。)
+	delete需要的也是deleteByEntity
+	select的话有两个常用的方法selectOne和selectList
+	还有一个select方法:count用来统计数量
+	这样的话大致的修改方案就出来了，由于updateByPrimaryKeySelective中已经封装了多条件更新，可以稍加修改变成多条件查询，当然这里一改就改两套（dao接口和sqlmap）。为了使得方法名简单明了，这里定义下面这些方法名来满足上面列出的需求。
+	insert:实现按照原insertSelective实现，可减少sql长度，提升效率,但是要给个返回值类型int，用来表示该条记录影响的记录行数，这样做是为了在一些极端场景下判断insert动作是否成功。ibatis本身不支持insert返回影响行数，这个之后的一些代码中逐步把这个功能加上（使用ibatis的selectKey功能时，是可以给传入的对象进行复制的，不需要单独返回selectKey的查询结果，至少我遇到的场景都是这样的）
+	update:实现按照原updateByPrimaryKeySelective实现，实现按照主键进行更新记录
+	updateByEntity:传入两个实体对象实现条件更新，由于关系到了两个条件，因此这里给两个条件分别起个别名:s(set)和w(where) 
+	delete:实现条件删除
+	selectOne:条件查询单个对象
+	selectList:条件查询列表，这里会涉及到泛型
+	count:条件查询数量
+	这次的代码基本都是参照其它实现类的代码去写的，新增了很多，就不一一叙述了。
 ## 2017-02-10 修改默认生成策略（默认是根据我的个人习惯来说的）
     1.Example文件和很多example方法。修改文件如下：
     org.apache.ibatis.ibator.config.TableConfiguration 修改包含Example的初始值为false

@@ -31,13 +31,19 @@ import org.apache.ibatis.ibator.config.PropertyRegistry;
 import org.apache.ibatis.ibator.generator.AbstractJavaGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.AbstractDAOElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.CountByExampleMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.CountMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.DeleteByExampleMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.DeleteByPrimaryKeyMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.DeleteMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.InsertMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.InsertSelectiveMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.SelectByExampleWithBLOBsMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.SelectByExampleWithoutBLOBsMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.SelectByPrimaryKeyMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.SelectListMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.SelectOneMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.SimpleInsertMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateByEntityMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateByExampleParmsInnerclassGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateByExampleSelectiveMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateByExampleWithBLOBsMethodGenerator;
@@ -45,6 +51,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateByExampleWi
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateByPrimaryKeySelectiveMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateByPrimaryKeyWithBLOBsMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateByPrimaryKeyWithoutBLOBsMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.UpdateMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.AbstractDAOTemplate;
 import org.apache.ibatis.ibator.internal.rules.IbatorRules;
 import org.apache.ibatis.ibator.internal.util.StringUtility;
@@ -73,6 +80,15 @@ public class DAOGenerator extends AbstractJavaGenerator {
                 Messages.getString("Progress.14", table.toString())); //$NON-NLS-1$
         TopLevelClass topLevelClass = getTopLevelClassShell();
         Interface interfaze = getInterfaceShell();
+        
+        //TODO 新增方法 2017-02-13
+        addInsertSimpleMethod(topLevelClass, interfaze);//insert方法和原有的insertSelective方法一致，直接复用
+        addDeleteMethod(topLevelClass, interfaze);
+        addCountMethod(topLevelClass, interfaze);
+        addUpdateMethod(topLevelClass, interfaze);
+        addUpdateByEntityMethod(topLevelClass, interfaze);
+        addSelectOneMethod(topLevelClass, interfaze);
+        addSelectListMethod(topLevelClass, interfaze);
         
         addCountByExampleMethod(topLevelClass, interfaze);
         addDeleteByExampleMethod(topLevelClass, interfaze);
@@ -106,7 +122,56 @@ public class DAOGenerator extends AbstractJavaGenerator {
         return answer;
     }
     
-    protected TopLevelClass getTopLevelClassShell() {
+    private void addSelectListMethod(TopLevelClass topLevelClass, Interface interfaze) {
+    	if (introspectedTable.getRules().generateSelectList()) {
+            AbstractDAOElementGenerator methodGenerator = new SelectListMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+	}
+
+	private void addSelectOneMethod(TopLevelClass topLevelClass, Interface interfaze) {
+		if (introspectedTable.getRules().generateSelectOne()) {
+            AbstractDAOElementGenerator methodGenerator = new SelectOneMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+	}
+
+	private void addUpdateByEntityMethod(TopLevelClass topLevelClass, Interface interfaze) {
+    	if (introspectedTable.getRules().generateUpdateByEntity()) {
+            AbstractDAOElementGenerator methodGenerator = new UpdateByEntityMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+	}
+    
+    private void addUpdateMethod(TopLevelClass topLevelClass, Interface interfaze) {
+    	if (introspectedTable.getRules().generateUpdate()) {
+            AbstractDAOElementGenerator methodGenerator = new UpdateMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+	}
+
+	private void addCountMethod(TopLevelClass topLevelClass, Interface interfaze) {
+    	if (introspectedTable.getRules().generateCount()) {
+            AbstractDAOElementGenerator methodGenerator = new CountMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+	}
+
+	private void addDeleteMethod(TopLevelClass topLevelClass, Interface interfaze) {
+    	if (introspectedTable.getRules().generateDelete()) {
+            AbstractDAOElementGenerator methodGenerator = new DeleteMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+	}
+
+	private void addInsertSimpleMethod(TopLevelClass topLevelClass, Interface interfaze) {
+    	if (introspectedTable.getRules().generateInsertSimple()) {
+            AbstractDAOElementGenerator methodGenerator = new SimpleInsertMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+	}
+
+	protected TopLevelClass getTopLevelClassShell() {
         FullyQualifiedJavaType interfaceType = introspectedTable.getDAOInterfaceType();
         FullyQualifiedJavaType implementationType = introspectedTable.getDAOImplementationType();
         

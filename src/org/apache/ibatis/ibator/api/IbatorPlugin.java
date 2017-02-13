@@ -1074,4 +1074,31 @@ public interface IbatorPlugin {
      *   will disable the calling of further plugins.
      */
     boolean sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    
+    //TODO 2017-02-13
+    boolean daoInsertGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+    boolean daoCountGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+    boolean daoDeleteGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+    boolean daoUpdateGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+    boolean daoUpdateByEntityGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+    boolean daoSelectOneGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+    boolean daoSelectListGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+    
+    boolean sqlMapInsertGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    boolean sqlMapCountGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    boolean sqlMapDeleteGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    boolean sqlMapUpdateGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    boolean sqlMapUpdateByEntityGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    boolean sqlMapSelectOneGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    boolean sqlMapSelectListGenerated(XmlElement element, IntrospectedTable introspectedTable);
+
+    boolean daoInsertGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+    boolean daoCountGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+    boolean daoDeleteGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+    boolean daoUpdateGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+    boolean daoUpdateByEntityGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+	boolean daoSelectOneGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+	boolean daoSelectListGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+    
+    
 }

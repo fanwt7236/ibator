@@ -23,6 +23,7 @@
 	这次的代码基本都是参照其它实现类的代码去写的，新增了很多，就不一一叙述了。
 	另外，我感觉dao具有很强的模板性和规律性，如之前提到过的dao实现非常模板化，可以通过公共或代理的方式完成，从而可以减少dao文件数量，使代码变得清晰美观；同时，dao接口也有很类似的特性，而且dao本身不关心任何业务，我们可以使用一个公共的包含泛型的dao接口充当门面，从而也减少dao接口文件的数量，大大减少非业务代码量；然而使用公共的dao接口还是使用各个表的dao接口，完全取决与程序员个人的习惯，因此在这里我让ibator同时支持了这两种情况，如果配置了daoGenerator的话，那么会按照table去生成dao接口，如果没有配置，则不生成dao接口，如果配置了daoGenerator且设置了implementationPackage属性的话，则会生成dao实现。
 	3.添加了toString功能,详细请参见org.apache.ibatis.ibator.plugins.ToStringPlugin
+	4.添加了枚举常量功能，详细请参见org.apache.ibatis.ibator.plugins.ConstantPlugin
 ## 2017-02-10 修改默认生成策略（默认是根据我的个人习惯来说的）
     1.Example文件和很多example方法。修改文件如下：
     org.apache.ibatis.ibator.config.TableConfiguration 修改包含Example的初始值为false

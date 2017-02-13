@@ -16,6 +16,8 @@
 package org.apache.ibatis.ibator.api.dom.java;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -101,6 +103,7 @@ public class InnerClass extends JavaElement {
         innerEnums.add(innerEnum);
     }
     
+    
     public String getFormattedContent(int indentLevel) {
         StringBuilder sb = new StringBuilder();
 
@@ -143,11 +146,35 @@ public class InnerClass extends JavaElement {
         
         sb.append(" {"); //$NON-NLS-1$
         indentLevel++;
+        
+        Collections.sort(fields, new Comparator<Field>(){
+        	@Override
+        	public int compare(Field f1, Field f2) {
+        		if(f1.isStatic() && !f2.isStatic()){
+        			return -1;
+        		}
+        		if(!f1.isStatic() && f2.isStatic()){
+        			return 1;
+        		}
+        		if(f1.isStatic() && f2.isStatic()){
+        			if(f1.getVisibility() == JavaVisibility.PRIVATE){
+        				return -1;
+        			}else if(f2.getVisibility() == JavaVisibility.PRIVATE){
+        				return 1;
+        			}
+        		}
+        		return 0;
+        	}
+        });
 
         Iterator<Field> fldIter = fields.iterator();
+        boolean isFirst = true;
         while (fldIter.hasNext()) {
-            OutputUtilities.newLine(sb);
-            Field field = fldIter.next();
+        	Field field = fldIter.next();
+        	if(isFirst){
+        		OutputUtilities.newLine(sb);
+        		isFirst = false;
+        	}
             sb.append(field.getFormattedContent(indentLevel));
             if (fldIter.hasNext()) {
                 OutputUtilities.newLine(sb);

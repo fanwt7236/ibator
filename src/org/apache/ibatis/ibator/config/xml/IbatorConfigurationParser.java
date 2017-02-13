@@ -330,6 +330,7 @@ public class IbatorConfigurationParser {
 		String delmitIdentifiers = attributes.getProperty("delimitIdentifiers"); //$NON-NLS-1$
 
 		String insert = attributes.getProperty("insert");
+		String insertBatch = attributes.getProperty("insertBatch");
 		String count = attributes.getProperty("count");
 		String delete = attributes.getProperty("delete");
 		String update = attributes.getProperty("update");
@@ -359,6 +360,10 @@ public class IbatorConfigurationParser {
 
 		if (StringUtility.stringHasValue(enableInsert)) {
 			tc.setInsertStatementEnabled(StringUtility.isTrue(enableInsert));
+		}
+
+		if (StringUtility.stringHasValue(insertBatch)) {
+			tc.setInsertBatchEnabled(StringUtility.isTrue(insertBatch));
 		}
 
 		if (StringUtility.stringHasValue(enableSelectByPrimaryKey)) {

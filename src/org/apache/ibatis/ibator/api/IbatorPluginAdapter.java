@@ -454,4 +454,21 @@ public abstract class IbatorPluginAdapter implements IbatorPlugin {
 	public boolean daoUpdateGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
 		return true;
 	}
+	
+	@Override
+	public boolean daoInsertBatchGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		return true;
+	}
+	
+	@Override
+	public boolean daoInsertBatchGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		return true;
+	}
+	
+	@Override
+	public boolean sqlMapInsertBatchGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		return true;
+	}
+	
 }

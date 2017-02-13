@@ -194,4 +194,10 @@ public class DefaultDAOMethodNameCalculator implements DAOMethodNameCalculator {
 	public String getSelectListMethodName(IntrospectedTable introspectedTable) {
 		return "selectList";
 	}
+	
+	@Override
+	public String getInsertBatchMethodName(IntrospectedTable introspectedTable) {
+		return "insertBatch";
+	}
+	
 }

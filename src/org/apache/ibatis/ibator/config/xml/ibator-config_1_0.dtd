@@ -159,6 +159,7 @@
   selectByPrimaryKeyQueryId CDATA #IMPLIED
   selectByExampleQueryId CDATA #IMPLIED
   insert CDATA #IMPLIED
+  insertBatch CDATA #IMPLIED
   update CDATA #IMPLIED
   updateByEntity CDATA #IMPLIED
   count CDATA #IMPLIED

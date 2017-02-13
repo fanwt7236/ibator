@@ -6,13 +6,14 @@
     2.修改默认方法
 	目前默认生成的方法有deleteByPrimaryKey、insert、insertSelective、selectByPrimaryKey、updateByPrimaryKeySelective、updateByPrimaryKey  
 	按照个人习惯来讲的话:
-	insert我需要的是insertSelective；
+	insert我需要的是insertSelective和insertBatch,少数场景会用到批量插入，批量插入很依赖数据库，我这里使用的是平时我最常用的mysql来实现的。
 	update需要的是update和updateByEntity(保留原updateByPrimaryKeySelective方法；另外需要考虑条件字段和更新字段为同一个字段的场景，所以再提供一个updateByEntity方法；这样基本单表更新的场景就可以满足了。)
 	delete需要的也是deleteByEntity
 	select的话有两个常用的方法selectOne和selectList
 	还有一个select方法:count用来统计数量
 	这样的话大致的修改方案就出来了，由于updateByPrimaryKeySelective中已经封装了多条件更新，可以稍加修改变成多条件查询，当然这里一改就改两套（dao接口和sqlmap）。为了使得方法名简单明了，这里定义下面这些方法名来满足上面列出的需求。
 	insert:实现按照原insertSelective实现，可减少sql长度，提升效率,但是要给个返回值类型int，用来表示该条记录影响的记录行数，这样做是为了在一些极端场景下判断insert动作是否成功。ibatis本身不支持insert返回影响行数，这个之后的一些代码中逐步把这个功能加上（使用ibatis的selectKey功能时，是可以给传入的对象进行复制的，不需要单独返回selectKey的查询结果，至少我遇到的场景都是这样的）
+	insertBatch:批量新增
 	update:实现按照原updateByPrimaryKeySelective实现，实现按照主键进行更新记录
 	updateByEntity:传入两个实体对象实现条件更新，由于关系到了两个条件，因此这里给两个条件分别起个别名:s(set)和w(where) 
 	delete:实现条件删除

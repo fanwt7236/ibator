@@ -35,6 +35,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.CountMethodGenera
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.DeleteByExampleMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.DeleteByPrimaryKeyMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.DeleteMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.InsertBatchMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.InsertMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.InsertSelectiveMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elements.SelectByExampleWithBLOBsMethodGenerator;
@@ -83,10 +84,11 @@ public class DAOGenerator extends AbstractJavaGenerator {
         
         //TODO 新增方法 2017-02-13
         addInsertSimpleMethod(topLevelClass, interfaze);//insert方法和原有的insertSelective方法一致，直接复用
-        addDeleteMethod(topLevelClass, interfaze);
-        addCountMethod(topLevelClass, interfaze);
+        addInsertBatchMethod(topLevelClass, interfaze);
         addUpdateMethod(topLevelClass, interfaze);
         addUpdateByEntityMethod(topLevelClass, interfaze);
+        addDeleteMethod(topLevelClass, interfaze);
+        addCountMethod(topLevelClass, interfaze);
         addSelectOneMethod(topLevelClass, interfaze);
         addSelectListMethod(topLevelClass, interfaze);
         
@@ -128,6 +130,13 @@ public class DAOGenerator extends AbstractJavaGenerator {
             initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
         }
 	}
+
+    private void addInsertBatchMethod(TopLevelClass topLevelClass, Interface interfaze) {
+    	if (introspectedTable.getRules().generateInsertBatch()) {
+    		AbstractDAOElementGenerator methodGenerator = new InsertBatchMethodGenerator();
+    		initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+    	}
+    }
 
 	private void addSelectOneMethod(TopLevelClass topLevelClass, Interface interfaze) {
 		if (introspectedTable.getRules().generateSelectOne()) {

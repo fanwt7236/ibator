@@ -50,6 +50,10 @@ public abstract class IbatorRules {
     public boolean generateCount(){
     	return tableConfiguration.isCountEnabled();
     }
+
+    public boolean generateInsertBatch(){
+    	return tableConfiguration.isInsertBatchEnabled();
+    }
     
     public boolean generateDelete(){
     	return tableConfiguration.isDeleteEnabled();

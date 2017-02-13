@@ -121,6 +121,9 @@ public class Method extends JavaElement {
             }
 
             sb.append(parameter.getType().getShortName());
+            if(StringUtility.stringHasValue(parameter.getType().getExtName())){
+            	sb.append("<").append(parameter.getType().getExtName()).append(">");
+            }
             sb.append(' ');
             sb.append(parameter.getName());
         }

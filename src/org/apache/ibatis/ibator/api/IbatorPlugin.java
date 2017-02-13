@@ -1083,6 +1083,7 @@ public interface IbatorPlugin {
     boolean daoUpdateByEntityGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
     boolean daoSelectOneGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
     boolean daoSelectListGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+    boolean daoInsertBatchGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
     
     boolean sqlMapInsertGenerated(XmlElement element, IntrospectedTable introspectedTable);
     boolean sqlMapCountGenerated(XmlElement element, IntrospectedTable introspectedTable);
@@ -1091,6 +1092,7 @@ public interface IbatorPlugin {
     boolean sqlMapUpdateByEntityGenerated(XmlElement element, IntrospectedTable introspectedTable);
     boolean sqlMapSelectOneGenerated(XmlElement element, IntrospectedTable introspectedTable);
     boolean sqlMapSelectListGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    boolean sqlMapInsertBatchGenerated(XmlElement element, IntrospectedTable introspectedTable);
 
     boolean daoInsertGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
     boolean daoCountGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
@@ -1099,6 +1101,7 @@ public interface IbatorPlugin {
     boolean daoUpdateByEntityGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
 	boolean daoSelectOneGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
 	boolean daoSelectListGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+	boolean daoInsertBatchGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
     
     
 }

@@ -1187,5 +1187,47 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
 		return rc;
 	}
 	
+	@Override
+	public boolean daoInsertBatchGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInsertBatchGenerated(method, interfaze, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean daoInsertBatchGenerated(Method method, TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.daoInsertBatchGenerated(method, topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean sqlMapInsertBatchGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.sqlMapInsertBatchGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
 	
 }

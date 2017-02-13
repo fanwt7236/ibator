@@ -269,4 +269,10 @@ public class ExtendedDAOMethodNameCalculator implements DAOMethodNameCalculator 
 	public String getSelectListMethodName(IntrospectedTable introspectedTable) {
 		return null;
 	}
+	
+	@Override
+	public String getInsertBatchMethodName(IntrospectedTable introspectedTable) {
+		return null;
+	}
+	
 }

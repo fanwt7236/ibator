@@ -150,4 +150,5 @@ public interface DAOMethodNameCalculator {
     String getUpdateByEntityMethodName(IntrospectedTable introspectedTable);
     String getSelectOneMethodName(IntrospectedTable introspectedTable);
     String getSelectListMethodName(IntrospectedTable introspectedTable);
+    String getInsertBatchMethodName(IntrospectedTable introspectedTable);
 }

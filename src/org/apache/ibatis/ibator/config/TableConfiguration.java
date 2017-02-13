@@ -62,6 +62,8 @@ public class TableConfiguration extends PropertyHolder {
 	private boolean selectListEnabled;
 
 	private boolean countEnabled;
+	
+	private boolean insertBatchEnabled;
 
 	private List<ColumnOverride> columnOverrides;
 
@@ -101,6 +103,7 @@ public class TableConfiguration extends PropertyHolder {
 		selectOneEnabled = true;
 		selectListEnabled = true;
 		countEnabled = true;
+		insertBatchEnabled = false;
 
 		insertStatementEnabled = false;
 		selectByPrimaryKeyStatementEnabled = false;
@@ -159,6 +162,14 @@ public class TableConfiguration extends PropertyHolder {
 
 	public void setSelectListEnabled(boolean selectListEnabled) {
 		this.selectListEnabled = selectListEnabled;
+	}
+	
+	public boolean isInsertBatchEnabled() {
+		return insertBatchEnabled;
+	}
+	
+	public void setInsertBatchEnabled(boolean insertBatchEnabled) {
+		this.insertBatchEnabled = insertBatchEnabled;
 	}
 
 	public boolean isCountEnabled() {
@@ -317,7 +328,8 @@ public class TableConfiguration extends PropertyHolder {
 				|| updateByPrimaryKeyStatementEnabled || deleteByExampleStatementEnabled
 				|| deleteByPrimaryKeyStatementEnabled || countByExampleStatementEnabled
 				|| updateByExampleStatementEnabled || insertEnabled 
-				|| updateByEntityEnabled || updateEnabled || deleteEnabled || countEnabled || selectOneEnabled || selectListEnabled;
+				|| updateByEntityEnabled || updateEnabled || deleteEnabled 
+				|| countEnabled || selectOneEnabled || selectListEnabled || insertBatchEnabled;
 	}
 
 	public void setGeneratedKey(GeneratedKey generatedKey) {
@@ -441,6 +453,10 @@ public class TableConfiguration extends PropertyHolder {
 			xmlElement.addAttribute(new Attribute("enableDelete", "false"));
 		}
 
+		if(!insertBatchEnabled){
+			xmlElement.addAttribute(new Attribute("enableInsertBatch", "false"));
+		}
+		
 		if(!countEnabled){
 			xmlElement.addAttribute(new Attribute("enableCount", "false"));
 		}

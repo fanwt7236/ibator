@@ -50,6 +50,9 @@ public class UpdateElementGenerator extends
             parameterType = introspectedTable.getBaseRecordType();
         }
         
+        answer.addAttribute(new Attribute(
+                "resultClass", "java.lang.Integer")); 
+        
         answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
                 parameterType.getFullyQualifiedName()));
 

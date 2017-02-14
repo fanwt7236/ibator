@@ -53,9 +53,6 @@ public class DeleteElementGenerator extends
         answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
                 parameterType.getFullyQualifiedName()));
         
-        answer.addAttribute(new Attribute(
-                "resultClass", "java.lang.Integer")); 
-
         ibatorContext.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();

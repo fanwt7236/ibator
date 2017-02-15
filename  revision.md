@@ -1,3 +1,13 @@
+## 2017-02-14 丰富实现，自动生成更多的代码，减少工作量
+    目前的插件已经能根据我们的配置生成sqlMap、dao、dao实现类、实体类文件了，我们不妨再尝试生成更多的代码，比如Service类、Controller类、html页面。
+    因为本人使用SpringMVC+easyUI较多，因此我会以SpringMVC和easyUI为基础生成代码。
+    生成Service、Controller、Html页面的控制权希望能够放在配置文件的table元素上，但是同时又需要一个用来配置文件生成package的公共配置；这样我们的需求大致就列出来了：
+    1.可以配置serviceGenerator、controllerGenerator、htmlGenerator来控制service、controller、html文件的生成目录，同时要考虑html文件在maven项目中只在src/main/java目录下生成文件的不良体验，希望能配置生成的基础路径；配置方式可以使用baseFolder="java/resources/webapp"来配置
+    2.table上可以配置该表是否生成配套的Service、Controller、Html，可以只生成Service或Service+Controller或Service、Controller、Html，配置方式可以使用generateModel="1/2/3"的方式来配置
+    3.同时考虑sqlMap文件在maven工程下的生成路径，希望能够与需求1相同，可在sqlMapGenerator上配置生成的基础路径.
+    4.页面中最好可以把字段上注释括号中的枚举值做成select下拉框.
+    5.这部分新增的功能与个人习惯有很大关系，所以这部分配置不做成默认配置
+    详细参见代码吧，基本都是参考其它原有实现写的，这里需要注意一点的是，如果需要根据数据库字段生成枚举的话，字段描述的格式需要这样写：是否被删除（0:否；1:是），其中括号需要成对出现，枚举值之间用分号隔开。
 ## 2017-02-13 扩展生成的方法
     今天主要修改的有以下几个方面:
     1.修改各种blob涉及的方法，ibator默认会将blob字段单独处理，但是这些字段不算常用（对我来说），但是又不想偶尔使用一个大文本数据类型造成生成多余的方法，因此计划重写一下IntrospectedColumn中的方法，忽略blob类型单独生成。好在ibator这次提供了扩展的地方，而且还挺合适，在ibator配置文件中可以通过给ibatorContext节点添加introspectedColumnImpl属性即可。修改内容如下:

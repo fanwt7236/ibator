@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.ibatis.ibator.api.GeneratedHtmlFile;
 import org.apache.ibatis.ibator.api.GeneratedJavaFile;
 import org.apache.ibatis.ibator.api.GeneratedXmlFile;
 import org.apache.ibatis.ibator.api.IbatorPlugin;
@@ -31,6 +32,7 @@ import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.api.dom.xml.Document;
 import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.config.IbatorContext;
+import org.apache.ibatis.ibator.generator.ibatis2.IntrospectedTableIbatis2Java2Impl;
 
 /**
  * This class is for internal use only. It contains a list of plugins for the
@@ -889,7 +891,7 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
 		}
 	}
 
-	//TODO 2017-02-13
+	// TODO 2017-02-13
 	@Override
 	public boolean sqlMapInsertGenerated(XmlElement element, IntrospectedTable introspectedTable) {
 		boolean rc = true;
@@ -1186,7 +1188,7 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
 
 		return rc;
 	}
-	
+
 	@Override
 	public boolean daoInsertBatchGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
 		boolean rc = true;
@@ -1222,6 +1224,71 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
 
 		for (IbatorPlugin plugin : plugins) {
 			if (!plugin.sqlMapInsertBatchGenerated(element, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	public List<GeneratedHtmlFile> contextGenerateAdditionalHtmlFiles(IntrospectedTable introspectedTable) {
+		List<GeneratedHtmlFile> answer = new ArrayList<GeneratedHtmlFile>();
+		for (IbatorPlugin plugin : plugins) {
+			List<GeneratedHtmlFile> temp = plugin.contextGenerateAdditionalHtmlFiles(introspectedTable);
+			if (temp != null) {
+				answer.addAll(temp);
+			}
+		}
+		return answer;
+	}
+
+	@Override
+	public List<GeneratedHtmlFile> contextGenerateAdditionalHtmlFiles() {
+		List<GeneratedHtmlFile> answer = new ArrayList<GeneratedHtmlFile>();
+		for (IbatorPlugin plugin : plugins) {
+			List<GeneratedHtmlFile> temp = plugin.contextGenerateAdditionalHtmlFiles();
+			if (temp != null) {
+				answer.addAll(temp);
+			}
+		}
+		return answer;
+	}
+
+	@Override
+	public boolean htmlGenerated(GeneratedHtmlFile html, IntrospectedTableIbatis2Java2Impl introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.htmlGenerated(html, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+	
+	@Override
+	public boolean serviceClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.serviceClassGenerated(topLevelClass, introspectedTable)) {
+				rc = false;
+				break;
+			}
+		}
+
+		return rc;
+	}
+
+	@Override
+	public boolean controllerClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		boolean rc = true;
+
+		for (IbatorPlugin plugin : plugins) {
+			if (!plugin.controllerClassGenerated(topLevelClass, introspectedTable)) {
 				rc = false;
 				break;
 			}

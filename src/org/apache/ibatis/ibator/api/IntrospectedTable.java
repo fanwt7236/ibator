@@ -23,12 +23,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
+import org.apache.ibatis.ibator.config.ControllerGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.DAOGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.GeneratedKey;
 import org.apache.ibatis.ibator.config.IbatorContext;
 import org.apache.ibatis.ibator.config.JavaModelGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.ModelType;
 import org.apache.ibatis.ibator.config.PropertyRegistry;
+import org.apache.ibatis.ibator.config.ServiceGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.SqlMapGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.TableConfiguration;
 import org.apache.ibatis.ibator.internal.rules.ConditionalModelRules;
@@ -84,6 +86,12 @@ public abstract class IntrospectedTable {
      * This attribute must be a class of type
      *   org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType
      */
+    public static final String ATTR_SERVICE_TYPE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_SERVICE_TYPE"; //$NON-NLS-1$
+    
+    /**
+     * This attribute must be a class of type
+     *   org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType
+     */
     public static final String ATTR_BASE_RECORD_TYPE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_BASE_RECORD_TYPE"; //$NON-NLS-1$
     
     /**
@@ -107,6 +115,19 @@ public abstract class IntrospectedTable {
      * This attribute must be a class of type java.lang.String
      */
     public static final String ATTR_SQL_MAP_FILE_NAME = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_SQL_MAP_FILE_NAME"; //$NON-NLS-1$
+    /**
+     * This attribute must be a class of type java.lang.String
+     */
+    public static final String ATTR_SERVICE_PACKAGE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_SERVICE_PACKAGE"; //$NON-NLS-1$
+    /**
+     * This attribute must be a class of type
+     *   org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType
+     */
+    public static final String ATTR_CONTROLLER_TYPE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_CONTROLLER_TYPE"; //$NON-NLS-1$
+    /**
+     * This attribute must be a class of type java.lang.String
+     */
+    public static final String ATTR_CONTROLLER_PACKAGE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_CONTROLLER_PACKAGE"; //$NON-NLS-1$
     
     protected TableConfiguration tableConfiguration;
     protected FullyQualifiedTable fullyQualifiedTable;
@@ -490,6 +511,12 @@ public abstract class IntrospectedTable {
         calculateSqlMapPackage();
         calculateSqlMapFileName();
         
+        calculateServicePackage();
+        calculateControllerPackage();
+        
+        calculateServiceType();
+        calculateControllerType();
+        
         if (tableConfiguration.getModelType() == ModelType.HIERARCHICAL) {
             rules = new HierarchicalModelRules(tableConfiguration, this);
         } else if (tableConfiguration.getModelType() == ModelType.FLAT) {
@@ -501,7 +528,34 @@ public abstract class IntrospectedTable {
         ibatorContext.getPlugins().initialized(this);
     }
     
-    private void calculateDAOImplementationPackage() {
+    private void calculateServicePackage() {
+    	ServiceGeneratorConfiguration config = ibatorContext.getServiceGeneratorConfiguration();
+    	if(config == null){
+    		return ;
+    	}
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(config.getTargetPackage());
+    	if (StringUtility.isTrue(config.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES))) {
+    		sb.append(fullyQualifiedTable.getSubPackage());
+    	}
+    	
+    	setAttribute(ATTR_SERVICE_PACKAGE, sb.toString());
+	}
+
+	private void calculateControllerPackage() {
+		ControllerGeneratorConfiguration config = ibatorContext.getControllerGeneratorConfiguration();
+    	if(config == null){
+    		return ;
+    	}
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(config.getTargetPackage());
+    	if (StringUtility.isTrue(config.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES))) {
+    		sb.append(fullyQualifiedTable.getSubPackage());
+    	}
+    	setAttribute(ATTR_CONTROLLER_PACKAGE, sb.toString());
+	}
+
+	private void calculateDAOImplementationPackage() {
         DAOGeneratorConfiguration config = ibatorContext.getDaoGeneratorConfiguration();
         
         if(config == null){
@@ -558,8 +612,40 @@ public abstract class IntrospectedTable {
 
         setAttribute(ATTR_DAO_INTERFACE_TYPE, fqjt);
     }
+    
+    public String getServicePackage() {
+        return (String) getAttribute(ATTR_SERVICE_PACKAGE);
+    }
+    
+    private void calculateServiceType() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getServicePackage());
+        sb.append('.');
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("Service");
 
-    private void calculateJavaModelPackage() {
+        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
+        
+        setAttribute(ATTR_SERVICE_TYPE, fqjt);
+    }
+    
+    private void calculateControllerType(){
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(getControllerPackage());
+    	sb.append('.');
+    	sb.append(fullyQualifiedTable.getDomainObjectName());
+    	sb.append("Controller");
+    	
+    	FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
+    	
+    	setAttribute(ATTR_CONTROLLER_TYPE, fqjt);
+    }
+
+    private Object getControllerPackage() {
+    	return (String) getAttribute(ATTR_CONTROLLER_PACKAGE);
+	}
+
+	private void calculateJavaModelPackage() {
         JavaModelGeneratorConfiguration config = ibatorContext.getJavaModelGeneratorConfiguration();
 
         StringBuilder sb = new StringBuilder();
@@ -693,4 +779,14 @@ public abstract class IntrospectedTable {
     public void setRules(IbatorRules rules) {
         this.rules = rules;
     }
+
+	public abstract List<GeneratedHtmlFile> getGeneratedHtmlFiles(IntrospectedTable introspectedTable);
+
+	public FullyQualifiedJavaType getServiceType() {
+		return (FullyQualifiedJavaType) getAttribute(ATTR_SERVICE_TYPE);
+	}
+
+	public FullyQualifiedJavaType getControllerType() {
+		return (FullyQualifiedJavaType) getAttribute(ATTR_CONTROLLER_TYPE);
+	}
 }

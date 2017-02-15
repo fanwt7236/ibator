@@ -115,6 +115,7 @@ public class SqlMapConfigPlugin extends IbatorPluginAdapter {
                 properties.getProperty("fileName", "SqlMapConfig.xml"), //$NON-NLS-1$ //$NON-NLS-2$
                 properties.getProperty("targetPackage"), //$NON-NLS-1$
                 properties.getProperty("targetProject"), //$NON-NLS-1$
+                properties.getProperty("baseFolder"), //$NON-NLS-1$
                 false);
         
         List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>(1);

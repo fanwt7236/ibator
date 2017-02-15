@@ -25,6 +25,7 @@ import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.api.dom.xml.Document;
 import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.config.IbatorContext;
+import org.apache.ibatis.ibator.generator.ibatis2.IntrospectedTableIbatis2Java2Impl;
 
 /**
  * This interface defines methods that will be called by ibator at different
@@ -1102,6 +1103,15 @@ public interface IbatorPlugin {
 	boolean daoSelectOneGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
 	boolean daoSelectListGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
 	boolean daoInsertBatchGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+	
+	List<GeneratedHtmlFile> contextGenerateAdditionalHtmlFiles();
+	List<GeneratedHtmlFile> contextGenerateAdditionalHtmlFiles(IntrospectedTable introspectedTable);
+
+	boolean htmlGenerated(GeneratedHtmlFile gxf, IntrospectedTableIbatis2Java2Impl introspectedTableIbatis2Java2Impl);
+
+	boolean serviceClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+
+	boolean controllerClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
     
     
 }

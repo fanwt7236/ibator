@@ -34,8 +34,10 @@ import org.apache.ibatis.ibator.config.IbatorContext;
 import org.apache.ibatis.ibator.config.ColumnOverride;
 import org.apache.ibatis.ibator.config.ColumnRenamingRule;
 import org.apache.ibatis.ibator.config.CommentGeneratorConfiguration;
+import org.apache.ibatis.ibator.config.ControllerGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.DAOGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.GeneratedKey;
+import org.apache.ibatis.ibator.config.HtmlGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.IbatorPluginConfiguration;
 import org.apache.ibatis.ibator.config.IgnoredColumn;
 import org.apache.ibatis.ibator.config.JDBCConnectionConfiguration;
@@ -43,6 +45,7 @@ import org.apache.ibatis.ibator.config.JavaModelGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.JavaTypeResolverConfiguration;
 import org.apache.ibatis.ibator.config.ModelType;
 import org.apache.ibatis.ibator.config.PropertyHolder;
+import org.apache.ibatis.ibator.config.ServiceGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.SqlMapGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.TableConfiguration;
 import org.apache.ibatis.ibator.exception.XMLParserException;
@@ -271,10 +274,86 @@ public class IbatorConfigurationParser {
 				parseJavaTypeResolver(ibatorContext, childNode);
 			} else if ("sqlMapGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
 				parseSqlMapGenerator(ibatorContext, childNode);
+			} else if ("serviceGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
+				parseServiceGenerator(ibatorContext, childNode);
+			} else if ("controllerGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
+				parseControllerGenerator(ibatorContext, childNode);
+			} else if ("htmlGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
+				parseHtmlGenerator(ibatorContext, childNode);
 			} else if ("daoGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
 				parseDaoGenerator(ibatorContext, childNode);
 			} else if ("table".equals(childNode.getNodeName())) { //$NON-NLS-1$
 				parseTable(ibatorContext, childNode);
+			}
+		}
+	}
+
+	private void parseHtmlGenerator(IbatorContext ibatorContext, Node childNode) {
+		HtmlGeneratorConfiguration configuration = new HtmlGeneratorConfiguration();
+		ibatorContext.setHtmlGeneratorConfiguration(configuration);
+		Properties attributes = parseAttributes(childNode);
+		String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
+		String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
+		String baseFolder = attributes.getProperty("baseFolder"); //$NON-NLS-1$
+
+		configuration.setTargetPackage(targetPackage);
+		configuration.setTargetProject(targetProject);
+		configuration.setBaseFolder(baseFolder);
+		
+		NodeList nodeList = childNode.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+
+			if (childNode.getNodeType() != 1) {
+				continue;
+			}
+
+			if ("property".equals(node.getNodeName())) { //$NON-NLS-1$
+				parseProperty(configuration, childNode);
+			}
+		}
+	}
+
+	private void parseControllerGenerator(IbatorContext ibatorContext, Node childNode) {
+		ControllerGeneratorConfiguration configuration = new ControllerGeneratorConfiguration();
+		ibatorContext.setControllerGeneratorConfiguration(configuration);
+		Properties attributes = parseAttributes(childNode);
+		String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
+		String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
+		configuration.setTargetPackage(targetPackage);
+		configuration.setTargetProject(targetProject);
+		NodeList nodeList = childNode.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+
+			if (childNode.getNodeType() != 1) {
+				continue;
+			}
+
+			if ("property".equals(node.getNodeName())) { //$NON-NLS-1$
+				parseProperty(configuration, childNode);
+			}
+		}
+	}
+
+	private void parseServiceGenerator(IbatorContext ibatorContext, Node childNode) {
+		ServiceGeneratorConfiguration configuration = new ServiceGeneratorConfiguration();
+		ibatorContext.setServiceGeneratorConfiguration(configuration);
+		Properties attributes = parseAttributes(childNode);
+		String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
+		String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
+		configuration.setTargetPackage(targetPackage);
+		configuration.setTargetProject(targetProject);
+		NodeList nodeList = childNode.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+
+			if (childNode.getNodeType() != 1) {
+				continue;
+			}
+
+			if ("property".equals(node.getNodeName())) { //$NON-NLS-1$
+				parseProperty(configuration, childNode);
 			}
 		}
 	}
@@ -287,9 +366,11 @@ public class IbatorConfigurationParser {
 		Properties attributes = parseAttributes(node);
 		String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
 		String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
+		String baseFolder = attributes.getProperty("baseFolder"); //$NON-NLS-1$
 
 		sqlMapGeneratorConfiguration.setTargetPackage(targetPackage);
 		sqlMapGeneratorConfiguration.setTargetProject(targetProject);
+		sqlMapGeneratorConfiguration.setBaseFolder(baseFolder);
 
 		NodeList nodeList = node.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -337,6 +418,7 @@ public class IbatorConfigurationParser {
 		String updateByEntity = attributes.getProperty("updateByEntity");
 		String selectOne = attributes.getProperty("selectOne");
 		String selectList = attributes.getProperty("selectList");
+		String generateModel = attributes.getProperty("generateModel");
 
 		if (StringUtility.stringHasValue(catalog)) {
 			tc.setCatalog(catalog);
@@ -424,6 +506,9 @@ public class IbatorConfigurationParser {
 		}
 		if (StringUtility.stringHasValue(selectList)) {
 			tc.setSelectListEnabled(StringUtility.isTrue(selectList));
+		}
+		if (StringUtility.stringHasValue(generateModel)) {
+			tc.setGenerateModel(generateModel);
 		}
 
 		if (StringUtility.stringHasValue(modelType)) {

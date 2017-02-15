@@ -20,48 +20,40 @@ import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 
 
 /**
- * @author Jeff Butler
+ * controllerGenerator配置
+ * @author fanwt7236@163.com
  */
-public class SqlMapGeneratorConfiguration extends PropertyHolder {
-	private String targetPackage;
+public class ControllerGeneratorConfiguration extends PropertyHolder {
 
-	private String targetProject;
-	
-	private String baseFolder;
+    private String targetPackage;
 
-	/**
-	 *  
-	 */
-	public SqlMapGeneratorConfiguration() {
-		super();
-	}
+    private String targetProject;
 
-	public String getTargetProject() {
-		return targetProject;
-	}
+    /**
+     * 
+     */
+    public ControllerGeneratorConfiguration() {
+        super();
+    }
 
-	public void setTargetProject(String targetProject) {
-		this.targetProject = targetProject;
-	}
-	
-	public String getTargetPackage() {
-		return targetPackage;
-	}
-	
-	public void setTargetPackage(String targetPackage) {
-		this.targetPackage = targetPackage;
-	}
-	
-	public String getBaseFolder() {
-		return baseFolder;
-	}
-	
-	public void setBaseFolder(String baseFolder) {
-		this.baseFolder = baseFolder;
-	}
+    public String getTargetProject() {
+        return targetProject;
+    }
+
+    public void setTargetProject(String targetProject) {
+        this.targetProject = targetProject;
+    }
+
+    public String getTargetPackage() {
+        return targetPackage;
+    }
+
+    public void setTargetPackage(String targetPackage) {
+        this.targetPackage = targetPackage;
+    }
 
     public XmlElement toXmlElement() {
-        XmlElement answer = new XmlElement("sqlMapGenerator"); //$NON-NLS-1$
+        XmlElement answer = new XmlElement("controllerGenerator"); //$NON-NLS-1$
         
         if (targetPackage != null) {
             answer.addAttribute(new Attribute("targetPackage", targetPackage)); //$NON-NLS-1$
@@ -69,10 +61,6 @@ public class SqlMapGeneratorConfiguration extends PropertyHolder {
         
         if (targetProject != null) {
             answer.addAttribute(new Attribute("targetProject", targetProject)); //$NON-NLS-1$
-        }
-
-        if (baseFolder != null) {
-        	answer.addAttribute(new Attribute("baseFolder", baseFolder)); //$NON-NLS-1$
         }
         
         addPropertyXmlElements(answer);

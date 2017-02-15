@@ -25,6 +25,7 @@ import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.api.dom.xml.Document;
 import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.config.IbatorContext;
+import org.apache.ibatis.ibator.generator.ibatis2.IntrospectedTableIbatis2Java2Impl;
 
 /**
  * This class includes no-operation methods for almost every method in the
@@ -471,4 +472,29 @@ public abstract class IbatorPluginAdapter implements IbatorPlugin {
 		return true;
 	}
 	
+	@Override
+	public boolean htmlGenerated(GeneratedHtmlFile gxf,
+			IntrospectedTableIbatis2Java2Impl introspectedTableIbatis2Java2Impl) {
+		return true;
+	}
+	
+	@Override
+	public List<GeneratedHtmlFile> contextGenerateAdditionalHtmlFiles() {
+		return null;
+	}
+	
+	@Override
+	public List<GeneratedHtmlFile> contextGenerateAdditionalHtmlFiles(IntrospectedTable introspectedTable) {
+		return null;
+	}
+	
+	@Override
+	public boolean controllerClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		return true;
+	}
+
+	@Override
+	public boolean serviceClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		return true;
+	}
 }

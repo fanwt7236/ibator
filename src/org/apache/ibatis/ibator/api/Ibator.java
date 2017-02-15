@@ -66,6 +66,8 @@ public class Ibator {
 
     private List<GeneratedXmlFile> generatedXmlFiles;
 
+    private List<GeneratedHtmlFile> generatedHtmlFiles;
+
     private List<String> warnings;
 
     private Set<String> projects;
@@ -108,6 +110,7 @@ public class Ibator {
         }
         generatedJavaFiles = new ArrayList<GeneratedJavaFile>();
         generatedXmlFiles = new ArrayList<GeneratedXmlFile>();
+        generatedHtmlFiles = new ArrayList<GeneratedHtmlFile>();
         projects = new HashSet<String>();
         
         this.ibatorConfiguration.validate();
@@ -172,13 +175,13 @@ public class Ibator {
      */
     public void generate(ProgressCallback callback, Set<String> contextIds, Set<String> fullyQualifiedTableNames)
             throws SQLException, IOException, InterruptedException {
-
         if (callback == null) {
             callback = new NullProgressCallback();
         }
 
         generatedJavaFiles.clear();
         generatedXmlFiles.clear();
+        generatedHtmlFiles.clear();
         
         // calculate the contexts to run
         List<IbatorContext> contextsToRun;
@@ -219,20 +222,38 @@ public class Ibator {
         callback.generationStarted(totalSteps);
         
         for (IbatorContext ibatorContext : contextsToRun) {
-            ibatorContext.generateFiles(callback, generatedJavaFiles, generatedXmlFiles, warnings);
+            ibatorContext.generateFiles(callback, generatedJavaFiles, generatedXmlFiles, generatedHtmlFiles, warnings);
         }
         
         // now save the files
-        callback.saveStarted(generatedXmlFiles.size() + generatedJavaFiles.size());
-        
+        callback.saveStarted(generatedXmlFiles.size() + generatedJavaFiles.size() + generatedHtmlFiles.size());
         for (GeneratedXmlFile gxf : generatedXmlFiles) {
             projects.add(gxf.getTargetProject());
 
             File targetFile;
             String source;
             try {
-                File directory = shellCallback.getDirectory(gxf
-                        .getTargetProject(), gxf.getTargetPackage());
+            	String targetPackage = gxf.getTargetPackage();
+            	if(gxf.getBaseFolder() != null){
+            		targetPackage = "ibator_temp." + targetPackage;
+                } 
+            	File directory = shellCallback.getDirectory(gxf
+                        .getTargetProject(), targetPackage);
+                if(gxf.getBaseFolder() != null){
+                	String path = directory.getAbsolutePath();
+                	do{
+                		directory.delete();
+                		directory = directory.getParentFile();
+                	}while(!directory.getName().equals("ibator_temp"));
+                	directory.delete();
+                	path = path.replace("src" + File.separator + "main" + File.separator + "java", "src" + File.separator + "main" + File.separator + gxf.getBaseFolder());
+                	path = path.replace("ibator_temp" + File.separator, "");
+                	directory = new File(path);
+                	if(!directory.exists()){
+                		directory.mkdirs();
+                	}
+                }
+                
                 targetFile = new File(directory, gxf.getFileName());
                 if (targetFile.exists()) {
                     if (gxf.isMergeable()) {
@@ -254,7 +275,6 @@ public class Ibator {
             callback.startTask(Messages.getString("Progress.15", targetFile.getName())); //$NON-NLS-1$
             writeFile(targetFile, source);
         }
-
         for (GeneratedJavaFile gjf : generatedJavaFiles) {
             projects.add(gjf.getTargetProject());
 
@@ -289,7 +309,52 @@ public class Ibator {
                 warnings.add(e.getMessage());
             }
         }
-        
+        for (GeneratedHtmlFile gxf : generatedHtmlFiles) {
+            projects.add(gxf.getTargetProject());
+
+            File targetFile;
+            String source;
+            try {
+            	String targetPackage = gxf.getTargetPackage();
+            	if(targetPackage.indexOf("WEB-INF") != -1){
+            		targetPackage = targetPackage.replace("WEB-INF", "_ibator_web_info");
+            	}
+            	if(gxf.getBaseFolder() != null){
+            		targetPackage = "ibator_temp." + targetPackage;
+                } 
+                File directory = shellCallback.getDirectory(gxf
+                        .getTargetProject(), targetPackage);
+                if(gxf.getBaseFolder() != null){
+                	String path = directory.getAbsolutePath();
+                	do{
+                		directory.delete();
+                		directory = directory.getParentFile();
+                	}while(!directory.getName().equals("ibator_temp"));
+                	directory.delete();
+                	path = path.replace("src" + File.separator + "main" + File.separator + "java", "src" + File.separator + "main" + File.separator + gxf.getBaseFolder());
+                	path = path.replace("ibator_temp" + File.separator, "");
+                	path = path.replace("_ibator_web_info", "WEB-INF");
+                	directory = new File(path);
+                	if(!directory.exists()){
+                		directory.mkdirs();
+                	}
+                }
+                targetFile = new File(directory, gxf.getFileName());
+                if (targetFile.exists()) {
+                    source = gxf.getFormattedContent();
+                    targetFile = getUniqueFileName(directory, gxf.getFileName());
+                    warnings.add(Messages.getString("Warning.2", targetFile.getAbsolutePath())); //$NON-NLS-1$
+                } else {
+                    source = gxf.getFormattedContent();
+                }
+            } catch (ShellException e) {
+                warnings.add(e.getMessage());
+                continue;
+            }
+            callback.checkCancel();
+            callback.startTask(Messages.getString("Progress.15", targetFile.getName())); //$NON-NLS-1$
+            writeFile(targetFile, source);
+        }
         for (String project : projects) {
             shellCallback.refreshProject(project);
         }

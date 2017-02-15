@@ -60,6 +60,8 @@ public class TableConfiguration extends PropertyHolder {
 	private boolean selectOneEnabled;
 
 	private boolean selectListEnabled;
+	
+	private String generateModel;
 
 	private boolean countEnabled;
 	
@@ -178,6 +180,14 @@ public class TableConfiguration extends PropertyHolder {
 
 	public void setCountEnabled(boolean countEnabled) {
 		this.countEnabled = countEnabled;
+	}
+	
+	public String getGenerateModel() {
+		return generateModel;
+	}
+	
+	public void setGenerateModel(String generateModel) {
+		this.generateModel = generateModel;
 	}
 
 	public boolean isDeleteByPrimaryKeyStatementEnabled() {

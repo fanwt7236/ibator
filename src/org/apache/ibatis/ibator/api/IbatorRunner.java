@@ -52,7 +52,6 @@ public class IbatorRunner {
         }
 		
         Map<String, String> arguments = parseCommandLine(args);
-        
         if (!arguments.containsKey(CONFIG_FILE)) {
             writeLine(Messages.getString("RuntimeError.0")); //$NON-NLS-1$
             return;

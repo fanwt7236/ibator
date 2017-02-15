@@ -52,7 +52,7 @@
   tables.
 -->
 <!ELEMENT ibatorContext (property*, ibatorPlugin*, commentGenerator?, jdbcConnection, javaTypeResolver?,
-                         javaModelGenerator, sqlMapGenerator, daoGenerator?, table+)>
+                         javaModelGenerator, sqlMapGenerator, daoGenerator?, serviceGenerator?, controllerGenerator?, htmlGenerator?, table+)>
 <!ATTLIST ibatorContext id ID #REQUIRED
   defaultModelType CDATA #IMPLIED
   targetRuntime CDATA #IMPLIED
@@ -123,7 +123,24 @@
 <!ELEMENT sqlMapGenerator (property*)>
 <!ATTLIST sqlMapGenerator
   targetPackage CDATA #REQUIRED
+  targetProject CDATA #REQUIRED
+  baseFolder CDATA #IMPLIED>
+  
+<!ELEMENT serviceGenerator (property*)>
+<!ATTLIST serviceGenerator
+  targetPackage CDATA #REQUIRED
   targetProject CDATA #REQUIRED>
+  
+<!ELEMENT controllerGenerator (property*)>
+<!ATTLIST controllerGenerator
+  targetPackage CDATA #REQUIRED
+  targetProject CDATA #REQUIRED>
+  
+<!ELEMENT htmlGenerator (property*)>
+<!ATTLIST htmlGenerator
+  targetPackage CDATA #REQUIRED
+  targetProject CDATA #REQUIRED
+  baseFolder CDATA #IMPLIED>
 
 <!--
   The daoGenerator element is used to define properties of the DAO Generator.
@@ -166,6 +183,7 @@
   delete CDATA #IMPLIED
   selectOne CDATA #IMPLIED
   selectList CDATA #IMPLIED
+  generateModel CDATA #IMPLIED
   modelType CDATA #IMPLIED
   escapeWildcards CDATA #IMPLIED
   delimitIdentifiers CDATA #IMPLIED>

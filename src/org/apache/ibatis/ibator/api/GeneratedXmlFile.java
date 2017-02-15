@@ -27,6 +27,8 @@ public class GeneratedXmlFile extends GeneratedFile {
 
     private String targetPackage;
     
+    private String baseFolder;
+    
     private boolean isMergeable;
 
     /**
@@ -39,13 +41,18 @@ public class GeneratedXmlFile extends GeneratedFile {
      *   XML file merger.  Files are mergeable if all mergeable elements contain
      *   id's with the "ibatorgenerated_" prefix.
      */
-    public GeneratedXmlFile(Document document, String fileName, String targetPackage, String targetProject, boolean isMergeable) {
+    public GeneratedXmlFile(Document document, String fileName, String targetPackage, String targetProject, String baseFolder, boolean isMergeable) {
         super(targetProject);
         this.document = document;
         this.fileName = fileName;
         this.targetPackage = targetPackage;
+        this.baseFolder = baseFolder;
         this.isMergeable = isMergeable;
     }
+    
+    public String getBaseFolder() {
+		return baseFolder;
+	}
 
     /*
      *  (non-Javadoc)

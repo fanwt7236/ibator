@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link href="assets/ui-plugins/themes/default/easyui.css" rel="stylesheet" />
+<link href="assets/ui-plugins/themes/icon.css" rel="stylesheet" />
+<script src="assets/ui-plugins/jquery.min.js"></script>
+<script src="assets/ui-plugins/jquery.easyui.min.js"></script>
+<script src="assets/ui-plugins/jquery.easyui.ext.js"></script>
+<script src="assets/js/json2.js"></script>
+<script src="assets/js/ext/util.js"></script>
+<script src="assets/js/base.operate.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var config = {
+			modelName : "",
+			dataGridUrl : "${controller}/queryPage.json",
+			addUrl : "${controller}/add.json",
+			updateUrl : "${controller}/modify.json",
+			findByIdUrl : "${controller}/queryById.json",
+			deleteUrl : "${controller}/delete.json",
+			editLoadFormCallback : function(data) {
+				$('#form').form('load', {
+					${setDialogFields}
+				});
+			}
+		};
+		init(config);
+	});
+</script>
+</head>
+
+<body style="margin: 0; width: 100%;">
+	<table id="dataGrid" class="easyui-datagrid" data-options="toolbar:'#tb',fit:true,border:0,plain:true,fitColumns:true">
+		<thead>
+			<tr>
+				${setTableHeadFields}
+			</tr>
+		</thead>
+	</table>
+	<div id="tb">
+		<form id="formSearch" class="easyui-form" method="post" data-options="novalidate:true,ajax:true">
+			<table>
+				<tr>
+					<td><font color="red">查询内容（请根据场景自行修改）:</font></td>
+					<td><input id="nameSearchInput" class="easyui-textbox" style="width: 150px" type="text" name="message" /></td>
+				</tr>
+			</table>
+		</form>
+		<a id="lbtnSearch" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true,">快速查询</a>
+		<a id="lbtnAdd" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true,">添加</a> 
+		<a id="lbtnUpdate" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-pageedit',plain:true,">修改</a> 
+		<a id="lbtnDel" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-delete',plain:true,">删除</a> 
+	</div>
+	<div id="dlg" style="display: none; width: 400px; height: 300px; padding: 10px 0 0 10px;">
+		<form id="form" class="easyui-form" method="post" data-options="novalidate:true,ajax:true">
+			${primaryFields}
+			<table>
+				${dialogFrame}
+			</table>
+		</form>
+	</div>
+</body>
+</html>

@@ -26,4 +26,8 @@ import org.apache.ibatis.ibator.api.dom.java.CompilationUnit;
  */
 public abstract class AbstractJavaGenerator extends AbstractGenerator {
     public abstract List<CompilationUnit> getCompilationUnits();
+    
+    protected static String format(String className){
+    	return String.valueOf(className.charAt(0)).toLowerCase() + className.substring(1);
+	}
 }

@@ -16,6 +16,7 @@
 package org.apache.ibatis.ibator.api;
 
 import java.sql.Types;
+import java.util.Properties;
 
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
 import org.apache.ibatis.ibator.config.IbatorContext;
@@ -84,6 +85,49 @@ public class IntrospectedColumn {
     public void setComment(String comment) {
 		this.comment = comment;
 	}
+    
+    public String getCommentWithoutEnums(){
+    	if(this.comment.indexOf('(') != -1 || this.comment.indexOf('（') != -1){
+    		return this.comment.substring(0, Math.max(this.comment.indexOf('('), this.comment.indexOf('（')));
+    	}
+    	return this.comment;
+    }
+    
+    public Properties getCommentEnums(){
+    	Properties prop = new Properties();
+		if (!StringUtility.stringHasValue(comment)) {
+			return prop;
+		}
+		if ((comment.indexOf('(') > -1 && comment.indexOf(')') > -1)
+				|| (comment.indexOf('（') > -1 && comment.indexOf('）') > -1)) {
+			if ((comment.indexOf('(') == comment.lastIndexOf('(')
+					&& comment.indexOf(')') == comment.lastIndexOf(')'))
+					|| (comment.indexOf('（') == comment.lastIndexOf('（')
+							&& comment.indexOf('）') == comment.lastIndexOf('）'))) {
+				// 中英文括号成对出现时生效
+				String enums = null;
+				if (comment.indexOf('(') == -1) {
+					enums = comment.substring(comment.indexOf('（') + 1, comment.indexOf('）'));
+				} else {
+					enums = comment.substring(comment.indexOf('(') + 1, comment.indexOf(')'));
+				}
+				String split = ";";
+				if (enums.indexOf('；') != -1) {
+					split = "；";
+				}
+				String[] es = enums.split(split);
+				for (String e : es) {
+					String sp = ":";
+					if (e.indexOf("：") != -1) {
+						sp = "：";
+					}
+					String[] eds = e.split(sp);
+					prop.setProperty(eds[0], eds[1]);
+				}
+			}
+		}
+    	return prop;
+    }
 
     public int getLength() {
         return length;

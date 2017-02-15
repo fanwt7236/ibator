@@ -15,7 +15,9 @@
  */
 package org.apache.ibatis.ibator.plugins;
 
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.ibatis.ibator.api.IbatorPluginAdapter;
 import org.apache.ibatis.ibator.api.IntrospectedColumn;
@@ -24,7 +26,6 @@ import org.apache.ibatis.ibator.api.dom.java.Field;
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
 import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
-import org.apache.ibatis.ibator.internal.util.StringUtility;
 
 /**
  * 
@@ -60,59 +61,32 @@ public class ConstantPlugin extends IbatorPluginAdapter {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void makeSerializable(TopLevelClass topLevelClass, IntrospectedTable table) {
 
 		List<IntrospectedColumn> columns = table.getAllColumns();
 
 		for (IntrospectedColumn column : columns) {
-			String comment = column.getComment();
-			if (!StringUtility.stringHasValue(comment)) {
-				continue;
-			}
-			if ((comment.indexOf('(') > -1 && comment.indexOf(')') > -1)
-					|| (comment.indexOf('（') > -1 && comment.indexOf('）') > -1)) {
-				if ((comment.indexOf('(') == comment.lastIndexOf('(')
-						&& comment.indexOf(')') == comment.lastIndexOf(')'))
-						|| (comment.indexOf('（') == comment.lastIndexOf('（')
-								&& comment.indexOf('）') == comment.lastIndexOf('）'))) {
-					// 中英文括号成对出现时生效
-					String enums = null;
-					String desc = null;
-					if (comment.indexOf('(') == -1) {
-						enums = comment.substring(comment.indexOf('（') + 1, comment.indexOf('）'));
-						desc = comment.substring(0, comment.indexOf('（'));
-					} else {
-						enums = comment.substring(comment.indexOf('(') + 1, comment.indexOf(')'));
-						desc = comment.substring(0, comment.indexOf('('));
-					}
-					String split = ";";
-					if (enums.indexOf('；') != -1) {
-						split = "；";
-					}
-					String[] es = enums.split(split);
-					for (String e : es) {
-						String sp = ":";
-						if (e.indexOf("：") != -1) {
-							sp = "：";
-						}
-						String[] eds = e.split(sp);
-						Field field = new Field();
-						field.setStatic(true);
-						field.setFinal(true);
-						field.setType(column.getFullyQualifiedJavaType()); // $NON-NLS-1$
-						field.setName(column.getActualColumnName().toUpperCase() + "_" + eds[0]); //$NON-NLS-1$
-						if (column.getFullyQualifiedJavaType().equals(FullyQualifiedJavaType.getStringInstance())) {
-							field.setInitializationString("\"" + eds[0] + "\"");
-						} else {
-							field.setInitializationString(eds[0]);
-						}
-						field.setVisibility(JavaVisibility.PUBLIC);
-						field.addJavaDocLine("/** " + desc + ":" + eds[1] + " */");
-						topLevelClass.addField(field);
-					}
+			Properties props = column.getCommentEnums();
+			Enumeration<String> pNames = (Enumeration<String>) props.propertyNames();
+			while(pNames.hasMoreElements()){
+				String name = pNames.nextElement();
+				Field field = new Field();
+				field.setStatic(true);
+				field.setFinal(true);
+				field.setType(column.getFullyQualifiedJavaType()); // $NON-NLS-1$
+				field.setName(column.getActualColumnName().toUpperCase() + "_" + name); //$NON-NLS-1$
+				if (column.getFullyQualifiedJavaType().equals(FullyQualifiedJavaType.getStringInstance())) {
+					field.setInitializationString("\"" + name + "\"");
+				} else {
+					field.setInitializationString(name);
 				}
+				field.setVisibility(JavaVisibility.PUBLIC);
+				field.addJavaDocLine("/** " + column.getCommentWithoutEnums() + ":" + props.getProperty(name) + " */");
+				topLevelClass.addField(field);
 			}
 		}
 
 	}
+	
 }

@@ -1,3 +1,4 @@
+## 2017-02-17 提出了BaseColumns 可配置不生成，默认生成
 ## 2017-02-14 丰富实现，自动生成更多的代码，减少工作量
     目前的插件已经能根据我们的配置生成sqlMap、dao、dao实现类、实体类文件了，我们不妨再尝试生成更多的代码，比如Service类、Controller类、html页面。
     因为本人使用SpringMVC+easyUI较多，因此我会以SpringMVC和easyUI为基础生成代码。

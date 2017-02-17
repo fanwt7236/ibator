@@ -28,6 +28,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.DeleteByExampl
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.DeleteByPrimaryKeyElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.DeleteElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.ExampleWhereClauseElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.IncludeColumnsSqlElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.InsertBatchElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.InsertElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.InsertSelectiveElementGenerator;
@@ -71,6 +72,7 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
 
 		addResultMapWithoutBLOBsElement(answer);
 		addResultMapWithBLOBsElement(answer);
+	
 		addExampleWhereClauseElement(answer);
 		addSelectByExampleWithBLOBsElement(answer);
 		addSelectByExampleWithoutBLOBsElement(answer);
@@ -88,6 +90,7 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
 		addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
 		
 		// TODO 新增方法 2017-02-13
+		addColumnsSqlMethod(answer);
 		addInsertSimpleMethod(answer);// insert方法和原有的insertSelective方法一致，直接复用
 		addInsertBatchMethod(answer);
 		addUpdateMethod(answer);
@@ -98,6 +101,13 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
 		addSelectListMethod(answer);
 
 		return answer;
+	}
+
+	private void addColumnsSqlMethod(XmlElement answer) {
+		if(introspectedTable.getRules().generateIncludeColumns()){
+			AbstractXmlElementGenerator elementGenerator = new IncludeColumnsSqlElementGenerator();
+			initializeAndExecuteGenerator(elementGenerator, answer);
+		}
 	}
 
 	private void addUpdateMethod(XmlElement parentElement) {

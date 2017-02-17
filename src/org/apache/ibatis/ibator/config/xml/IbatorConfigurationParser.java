@@ -419,6 +419,7 @@ public class IbatorConfigurationParser {
 		String selectOne = attributes.getProperty("selectOne");
 		String selectList = attributes.getProperty("selectList");
 		String generateModel = attributes.getProperty("generateModel");
+		String includeColumns = attributes.getProperty("includeColumns");
 
 		if (StringUtility.stringHasValue(catalog)) {
 			tc.setCatalog(catalog);
@@ -485,6 +486,10 @@ public class IbatorConfigurationParser {
 		}
 
 		//TODO 设置配置 2017-02-13
+		if (StringUtility.stringHasValue(includeColumns)) {
+			tc.setIncludeColumnsEnabled(StringUtility.isTrue(includeColumns));
+		}
+		
 		if (StringUtility.stringHasValue(insert)) {
 			tc.setInsertEnabled(StringUtility.isTrue(insert));
 		}

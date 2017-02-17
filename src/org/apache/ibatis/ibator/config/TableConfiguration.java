@@ -66,6 +66,8 @@ public class TableConfiguration extends PropertyHolder {
 	private boolean countEnabled;
 	
 	private boolean insertBatchEnabled;
+	
+	private boolean includeColumnsEnabled;
 
 	private List<ColumnOverride> columnOverrides;
 
@@ -105,6 +107,7 @@ public class TableConfiguration extends PropertyHolder {
 		selectOneEnabled = true;
 		selectListEnabled = true;
 		countEnabled = true;
+		includeColumnsEnabled = true;
 		insertBatchEnabled = false;
 
 		insertStatementEnabled = false;
@@ -116,6 +119,14 @@ public class TableConfiguration extends PropertyHolder {
 		deleteByExampleStatementEnabled = false;
 		countByExampleStatementEnabled = false;
 		updateByExampleStatementEnabled = false;
+	}
+	
+	public void setIncludeColumnsEnabled(boolean includeColumnsEnabled) {
+		this.includeColumnsEnabled = includeColumnsEnabled;
+	}
+	
+	public boolean isIncludeColumnsEnabled() {
+		return includeColumnsEnabled;
 	}
 
 	public boolean isInsertEnabled() {

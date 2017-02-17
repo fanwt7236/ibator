@@ -43,6 +43,10 @@ public abstract class IbatorRules {
         this.introspectedTable = introspectedTable;
     }
     
+    public boolean generateIncludeColumns(){
+    	return tableConfiguration.isIncludeColumnsEnabled();
+    }
+    
     public boolean generateInsertSimple(){
     	return tableConfiguration.isInsertEnabled();
     }

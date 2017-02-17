@@ -57,25 +57,32 @@ public class SelectListElementGenerator extends AbstractXmlElementGenerator {
         StringBuilder sb = new StringBuilder();
         sb.append("select "); //$NON-NLS-1$
 
-        boolean comma = false;
-        if (StringUtility.stringHasValue(introspectedTable.getSelectByPrimaryKeyQueryId())) {
-            sb.append('\'');
-            sb.append(introspectedTable.getSelectByPrimaryKeyQueryId());
-            sb.append("' as QUERYID"); //$NON-NLS-1$
-            comma = true;
+        
+        if(introspectedTable.getRules().generateIncludeColumns()){
+        	answer.addElement(new TextElement(sb.toString()));
+        	XmlElement xe = new XmlElement("include");
+        	xe.addAttribute(new Attribute("refid", "BaseColumns"));
+        	answer.addElement(xe);
+        }else{
+        	boolean comma = false;
+        	if (StringUtility.stringHasValue(introspectedTable.getSelectByPrimaryKeyQueryId())) {
+        		sb.append('\'');
+        		sb.append(introspectedTable.getSelectByPrimaryKeyQueryId());
+        		sb.append("' as QUERYID"); //$NON-NLS-1$
+        		comma = true;
+        	}
+        	
+        	for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
+        		if (comma) {
+        			sb.append(", "); //$NON-NLS-1$
+        		} else {
+        			comma = true;
+        		}
+        		
+        		sb.append(introspectedColumn.getSelectListPhrase());
+        	}
+        	answer.addElement(new TextElement(sb.toString()));
         }
-
-        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
-            if (comma) {
-                sb.append(", "); //$NON-NLS-1$
-            } else {
-                comma = true;
-            }
-
-            sb.append(introspectedColumn.getSelectListPhrase());
-        }
-
-        answer.addElement(new TextElement(sb.toString()));
 
         sb.setLength(0);
         sb.append("from "); //$NON-NLS-1$

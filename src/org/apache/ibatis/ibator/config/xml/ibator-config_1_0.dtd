@@ -175,6 +175,7 @@
   enableUpdateByExample CDATA #IMPLIED
   selectByPrimaryKeyQueryId CDATA #IMPLIED
   selectByExampleQueryId CDATA #IMPLIED
+  includeColumns CDATA #IMPLIED
   insert CDATA #IMPLIED
   insertBatch CDATA #IMPLIED
   update CDATA #IMPLIED

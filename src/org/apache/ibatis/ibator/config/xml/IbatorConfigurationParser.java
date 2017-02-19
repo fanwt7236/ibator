@@ -367,11 +367,13 @@ public class IbatorConfigurationParser {
 		String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
 		String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
 		String baseFolder = attributes.getProperty("baseFolder"); //$NON-NLS-1$
+		String namespaceGenerateBy = attributes.getProperty("namespaceGenerateBy"); //$NON-NLS-1$
 
 		sqlMapGeneratorConfiguration.setTargetPackage(targetPackage);
 		sqlMapGeneratorConfiguration.setTargetProject(targetProject);
 		sqlMapGeneratorConfiguration.setBaseFolder(baseFolder);
-
+		sqlMapGeneratorConfiguration.setNamespaceGenerateBy(namespaceGenerateBy);
+			
 		NodeList nodeList = node.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node childNode = nodeList.item(i);

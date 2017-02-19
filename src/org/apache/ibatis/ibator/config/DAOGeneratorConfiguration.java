@@ -49,7 +49,7 @@ public class DAOGeneratorConfiguration extends TypedPropertyHolder {
 	public void setTargetPackage(String targetPackage) {
 		this.targetPackage = targetPackage;
 	}
-
+	
     public XmlElement toXmlElement() {
         XmlElement answer = new XmlElement("daoGenerator"); //$NON-NLS-1$
         if (getConfigurationType() != null) {
@@ -63,7 +63,7 @@ public class DAOGeneratorConfiguration extends TypedPropertyHolder {
         if (targetProject != null) {
             answer.addAttribute(new Attribute("targetProject", targetProject)); //$NON-NLS-1$
         }
-        
+
         if (implementationPackage != null) {
             answer.addAttribute(new Attribute("implementationPackage", targetProject)); //$NON-NLS-1$
         }

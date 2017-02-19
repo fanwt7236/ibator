@@ -28,6 +28,8 @@ public class SqlMapGeneratorConfiguration extends PropertyHolder {
 	private String targetProject;
 	
 	private String baseFolder;
+	
+	private String namespaceGenerateBy;
 
 	/**
 	 *  
@@ -59,6 +61,14 @@ public class SqlMapGeneratorConfiguration extends PropertyHolder {
 	public void setBaseFolder(String baseFolder) {
 		this.baseFolder = baseFolder;
 	}
+	
+	public String getNamespaceGenerateBy() {
+		return namespaceGenerateBy;
+	}
+	
+	public void setNamespaceGenerateBy(String namespaceGenerateBy) {
+		this.namespaceGenerateBy = namespaceGenerateBy;
+	}
 
     public XmlElement toXmlElement() {
         XmlElement answer = new XmlElement("sqlMapGenerator"); //$NON-NLS-1$
@@ -73,6 +83,10 @@ public class SqlMapGeneratorConfiguration extends PropertyHolder {
 
         if (baseFolder != null) {
         	answer.addAttribute(new Attribute("baseFolder", baseFolder)); //$NON-NLS-1$
+        }
+
+        if (namespaceGenerateBy != null) {
+        	answer.addAttribute(new Attribute("namespaceGenerateBy", namespaceGenerateBy)); //$NON-NLS-1$
         }
         
         addPropertyXmlElements(answer);

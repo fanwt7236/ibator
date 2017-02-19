@@ -65,8 +65,14 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
 		FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 		progressCallback.startTask(Messages.getString("Progress.12", table.toString())); //$NON-NLS-1$
 		XmlElement answer = new XmlElement("sqlMap"); //$NON-NLS-1$
+		
 		// TODO 修改namespace 为全限定名 2017-02-10
-		answer.addAttribute(new Attribute("namespace", introspectedTable.getBaseRecordType().getFullyQualifiedName()));
+		// TODO 修改namespace 的默认生成规则，默认按照dao的全限定名来生成，同时也为了做公共dao方便，也提供了按照实体类全限定名进行扩展
+		String namespace = introspectedTable.getDAOInterfaceType().getFullyQualifiedName();
+		if("entity".equalsIgnoreCase(this.ibatorContext.getSqlMapGeneratorConfiguration().getNamespaceGenerateBy())){
+			namespace = introspectedTable.getBaseRecordType().getFullyQualifiedName();
+		}
+		answer.addAttribute(new Attribute("namespace", namespace));
 
 		ibatorContext.getCommentGenerator().addRootComment(answer);
 

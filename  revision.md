@@ -1,3 +1,4 @@
+## 2017-02-19 在sqlMapGenerator上新增了配置项:namespaceGenerateBy，如果配置为entity，则sqlMap的namespace将会设置为实体类的全限定名；否则则会使用dao接口的全限定名。
 ## 2017-02-17 提出了BaseColumns 可配置不生成，默认生成
 ## 2017-02-14 丰富实现，自动生成更多的代码，减少工作量
     目前的插件已经能根据我们的配置生成sqlMap、dao、dao实现类、实体类文件了，我们不妨再尝试生成更多的代码，比如Service类、Controller类、html页面。

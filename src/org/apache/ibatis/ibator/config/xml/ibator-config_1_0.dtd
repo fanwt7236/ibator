@@ -124,7 +124,7 @@
 <!ATTLIST sqlMapGenerator
   targetPackage CDATA #REQUIRED
   targetProject CDATA #REQUIRED
-  namespaceGenerateBy CDATA #REQUIRED
+  namespaceGenerateBy CDATA #IMPLIED
   baseFolder CDATA #IMPLIED>
   
 <!ELEMENT serviceGenerator (property*)>

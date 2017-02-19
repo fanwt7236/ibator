@@ -1,7 +1,7 @@
 ## 2017-02-19 在sqlMapGenerator上新增了配置项:namespaceGenerateBy，如果配置为entity，则sqlMap的namespace将会设置为实体类的全限定名；否则则会使用dao接口的全限定名。
 ## 2017-02-17 提出了BaseColumns 可配置不生成，默认生成
 ## 2017-02-14 丰富实现，自动生成更多的代码，减少工作量
-    目前的插件已经能根据我们的配置生成sqlMap、dao、dao实现类、实体类文件了，我们不妨再尝试生成更多的代码，比如Service类、Controller类、html页面。
+   目前的插件已经能根据我们的配置生成sqlMap、dao、dao实现类、实体类文件了，我们不妨再尝试生成更多的代码，比如Service类、Controller类、html页面。
     因为本人使用SpringMVC+easyUI较多，因此我会以SpringMVC和easyUI为基础生成代码。
     生成Service、Controller、Html页面的控制权希望能够放在配置文件的table元素上，但是同时又需要一个用来配置文件生成package的公共配置；这样我们的需求大致就列出来了：
     1.可以配置serviceGenerator、controllerGenerator、htmlGenerator来控制service、controller、html文件的生成目录，同时要考虑html文件在maven项目中只在src/main/java目录下生成文件的不良体验，希望能配置生成的基础路径；配置方式可以使用baseFolder="java/resources/webapp"来配置
@@ -11,7 +11,7 @@
     5.这部分新增的功能与个人习惯有很大关系，所以这部分配置不做成默认配置
     详细参见代码吧，基本都是参考其它原有实现写的，这里需要注意一点的是，如果需要根据数据库字段生成枚举的话，字段描述的格式需要这样写：是否被删除（0:否；1:是），其中括号需要成对出现，枚举值之间用分号隔开。
 ## 2017-02-13 扩展生成的方法
-    今天主要修改的有以下几个方面:
+   今天主要修改的有以下几个方面:
     1.修改各种blob涉及的方法，ibator默认会将blob字段单独处理，但是这些字段不算常用（对我来说），但是又不想偶尔使用一个大文本数据类型造成生成多余的方法，因此计划重写一下IntrospectedColumn中的方法，忽略blob类型单独生成。好在ibator这次提供了扩展的地方，而且还挺合适，在ibator配置文件中可以通过给ibatorContext节点添加introspectedColumnImpl属性即可。修改内容如下:
     org.apache.ibatis.ibator.internal.IbatorObjectFactory.createIntrospectedColumn 修改默认选项
     org.apache.ibatis.ibator.api.DefaultIntrospectedColumn 新增并继承IntrospectedColumn，重写isBLOBColumn方法，直接返回false
@@ -37,11 +37,11 @@
 	3.添加了toString功能,详细请参见org.apache.ibatis.ibator.plugins.ToStringPlugin
 	4.添加了枚举常量功能，详细请参见org.apache.ibatis.ibator.plugins.ConstantPlugin
 ## 2017-02-10 修改默认生成策略（默认是根据我的个人习惯来说的）
-    1.Example文件和很多example方法。修改文件如下：
+   1.Example文件和很多example方法。修改文件如下：
     org.apache.ibatis.ibator.config.TableConfiguration 修改包含Example的初始值为false
-    2.删除生成sql时的statementId前缀“ibatorgenerated_”，
+   2.删除生成sql时的statementId前缀“ibatorgenerated_”，
     org.apache.ibatis.ibator.config.MergeConstants 删除“ibatorgenerated_”
-    3.修改生成的sqlmap文件的namespace为实体类的全限定名，这样修改是因为dao实现的操作步骤完全一致，可以使用公共的方法或者是动态代理（类似Spring+MyBatis）的方法减少编码，修改代码如下:
+   3.修改生成的sqlmap文件的namespace为实体类的全限定名，这样修改是因为dao实现的操作步骤完全一致，可以使用公共的方法或者是动态代理（类似Spring+MyBatis）的方法减少编码，修改代码如下:
     org.apache.ibatis.ibator.generator.ibatis2.sqlmap.SqlMapGenerator 修改namespace生成规则
     org.apache.ibatis.ibator.generator.ibatis2.dao.elements.DeleteByExampleMethodGenerator
     org.apache.ibatis.ibator.generator.ibatis2.dao.elements.DeleteByPrimaryKeyMethodGenerator
@@ -50,7 +50,7 @@
     修改sqlmap文件文件名规则，修改代码如下:
     org.apache.ibatis.ibator.api.IntrospectedTable 修改sqlmap文件名为实体类名.xml
 ## 2017-02-10 删除僵尸注释，添加有效注释
-	ibator中有注释生成器接口org.apache.ibatis.ibator.api.CommentGenerator，并且在org/apache/ibatis/ibator/config/xml/ibator-config_1_0.dtd可以发现ibatorContext下可以配置commentGenerator，并且commentGenerator中有一个属性type,这个type就是CommentGenerator的实现类的qualifiedName,也就是说我们可以通过实现CommentGenerator来自由订制注释声称规则;然而在查看过CommentGenerator接口后，发现原有接口在打印字段描述上比较乏力，需要扩展，因此采用直接修改DefaultCommentGenerator的方式来实现功能。修改原有接口CommentGenerator，修改public void addFieldComment(Field field, FullyQualifiedTable table, String columnName)为public void addFieldComment(Field field, FullyQualifiedTable table, IntrospectedColumn introspectedColumn)，并且修改IntrospectedColumn文件，添加用来记录字段描述的属性:comment，解决掉编译错误，实现功能。另外，由于生成了注释，涉及到了字符集的问题，因此在最后生成文件的时候还要指定编码，为了方便的指定编码，我修改了ibator-config_1_0.dtd,在ibatorConfiguration下可以添加property,用charset来设置编码,如果不设置会使用utf-8。
+   ibator中有注释生成器接口org.apache.ibatis.ibator.api.CommentGenerator，并且在org/apache/ibatis/ibator/config/xml/ibator-config_1_0.dtd可以发现ibatorContext下可以配置commentGenerator，并且commentGenerator中有一个属性type,这个type就是CommentGenerator的实现类的qualifiedName,也就是说我们可以通过实现CommentGenerator来自由订制注释声称规则;然而在查看过CommentGenerator接口后，发现原有接口在打印字段描述上比较乏力，需要扩展，因此采用直接修改DefaultCommentGenerator的方式来实现功能。修改原有接口CommentGenerator，修改public void addFieldComment(Field field, FullyQualifiedTable table, String columnName)为public void addFieldComment(Field field, FullyQualifiedTable table, IntrospectedColumn introspectedColumn)，并且修改IntrospectedColumn文件，添加用来记录字段描述的属性:comment，解决掉编译错误，实现功能。另外，由于生成了注释，涉及到了字符集的问题，因此在最后生成文件的时候还要指定编码，为了方便的指定编码，我修改了ibator-config_1_0.dtd,在ibatorConfiguration下可以添加property,用charset来设置编码,如果不设置会使用utf-8。
 	修改的文件及摘要如下：
 	org/apache/ibatis/ibator/config/xml/ibator-config_1_0.dtd 修改了 ibatorConfiguration 的规则，添加property*
 	org.apache.ibatis.ibator.api.CommentGenerator 修改了方法addFieldComment的参数，将String columnName 变为IntrospectedColumn introspectedColumn

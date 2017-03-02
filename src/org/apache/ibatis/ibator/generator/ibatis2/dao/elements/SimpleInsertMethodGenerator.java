@@ -102,7 +102,7 @@ public class SimpleInsertMethodGenerator extends AbstractDAOElementGenerator {
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
         Method method = new Method();
 
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.setReturnType(new FullyQualifiedJavaType(Integer.class.getName()));
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName(getDAOMethodNameCalculator()
                 .getSimpleInsertMethodName(introspectedTable));

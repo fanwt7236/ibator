@@ -82,7 +82,7 @@ public class HtmlGenerator extends AbstractGenerator {
 					sb.append("<tr>\n").append("					").append("<td align=\"right\">"+introspectedColumn.getCommentWithoutEnums()+":</td>\n").append("					").append("<td><input class=\"easyui-textbox\" style=\"width: 220px\" type=\"text\" name=\""+field.getName()+"\" ").append(introspectedColumn.isNullable() ? "" : "data-options=\"required:true\"").append(" /></td>\n").append("				").append("</tr>");
 				}else{
 					sb.append("<tr>\n").append("					").append("<td align=\"right\">"+introspectedColumn.getCommentWithoutEnums()+":</td>\n").append("					");
-					sb.append("<td><select class=\"easyui-combobox\" name=\""+field.getName()+"\">\n");
+					sb.append("<td><select class=\"easyui-combobox\" style=\"width: 220px\" name=\""+field.getName()+"\">\n");
 					Enumeration<String> names = (Enumeration<String>) props.propertyNames();
 					while(names.hasMoreElements()){
 						String name = names.nextElement();
@@ -98,7 +98,7 @@ public class HtmlGenerator extends AbstractGenerator {
 					sb.append("				<tr>\n").append("					").append("<td align=\"right\">"+introspectedColumn.getCommentWithoutEnums()+":</td>\n").append("					").append("<td><input class=\"easyui-textbox\" style=\"width: 220px\" type=\"text\" name=\""+field.getName()+"\" ").append(introspectedColumn.isNullable() ? "" : "data-options=\"required:true\"").append(" /></td>\n").append("				").append("</tr>");
 				}else{
 					sb.append("				<tr>\n").append("					").append("<td align=\"right\">"+introspectedColumn.getCommentWithoutEnums()+":</td>\n").append("					");
-					sb.append("<td><select class=\"easyui-combobox\" name=\""+field.getName()+"\">\n");
+					sb.append("<td><select class=\"easyui-combobox\" style=\"width: 220px\" name=\""+field.getName()+"\">\n");
 					Enumeration<String> names = (Enumeration<String>) props.propertyNames();
 					while(names.hasMoreElements()){
 						String name = names.nextElement();

@@ -68,6 +68,8 @@ public class TableConfiguration extends PropertyHolder {
 	private boolean insertBatchEnabled;
 	
 	private boolean includeColumnsEnabled;
+	
+	private boolean includeCommonsWhereEnabled;
 
 	private List<ColumnOverride> columnOverrides;
 
@@ -108,6 +110,7 @@ public class TableConfiguration extends PropertyHolder {
 		selectListEnabled = true;
 		countEnabled = true;
 		includeColumnsEnabled = true;
+		includeCommonsWhereEnabled = true;
 		insertBatchEnabled = false;
 
 		insertStatementEnabled = false;
@@ -119,6 +122,14 @@ public class TableConfiguration extends PropertyHolder {
 		deleteByExampleStatementEnabled = false;
 		countByExampleStatementEnabled = false;
 		updateByExampleStatementEnabled = false;
+	}
+	
+	public void setIncludeCommonsWhereEnabled(boolean includeCommonsWhereEnabled) {
+		this.includeCommonsWhereEnabled = includeCommonsWhereEnabled;
+	}
+	
+	public boolean isIncludeCommonsWhereEnabled() {
+		return includeCommonsWhereEnabled;
 	}
 	
 	public void setIncludeColumnsEnabled(boolean includeColumnsEnabled) {

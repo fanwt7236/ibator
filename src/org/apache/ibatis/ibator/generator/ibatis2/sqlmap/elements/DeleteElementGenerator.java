@@ -60,25 +60,30 @@ public class DeleteElementGenerator extends
         sb.append("delete from "); //$NON-NLS-1$
         sb.append(table.getFullyQualifiedTableNameAtRuntime());
         answer.addElement(new TextElement(sb.toString()));
-
-        XmlElement dynamicElement = new XmlElement("dynamic"); //$NON-NLS-1$
-        dynamicElement.addAttribute(new Attribute("prepend", "where")); //$NON-NLS-1$ //$NON-NLS-2$
-        answer.addElement(dynamicElement);
-
-        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
-            XmlElement isNotNullElement = new XmlElement("isNotNull"); //$NON-NLS-1$
-            isNotNullElement.addAttribute(new Attribute("prepend", "and")); //$NON-NLS-1$ //$NON-NLS-2$
-            isNotNullElement.addAttribute(new Attribute("property", introspectedColumn.getJavaProperty())); //$NON-NLS-1$
-            dynamicElement.addElement(isNotNullElement);
-
-            sb.setLength(0);
-            sb.append(introspectedColumn.getEscapedColumnName());
-            sb.append(" = "); //$NON-NLS-1$
-            sb.append(introspectedColumn.getIbatisFormattedParameterClause());
-            
-            isNotNullElement.addElement(new TextElement(sb.toString()));
+        
+        if(introspectedTable.getRules().generateCommonsWhere()){
+        	XmlElement xe = new XmlElement("include");
+        	xe.addAttribute(new Attribute("refid", "CommonsWhere"));
+        	answer.addElement(xe);
+        }else{
+        	XmlElement dynamicElement = new XmlElement("dynamic"); //$NON-NLS-1$
+        	dynamicElement.addAttribute(new Attribute("prepend", "where")); //$NON-NLS-1$ //$NON-NLS-2$
+        	answer.addElement(dynamicElement);
+        	
+        	for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
+        		XmlElement isNotNullElement = new XmlElement("isNotNull"); //$NON-NLS-1$
+        		isNotNullElement.addAttribute(new Attribute("prepend", "and")); //$NON-NLS-1$ //$NON-NLS-2$
+        		isNotNullElement.addAttribute(new Attribute("property", introspectedColumn.getJavaProperty())); //$NON-NLS-1$
+        		dynamicElement.addElement(isNotNullElement);
+        		
+        		sb.setLength(0);
+        		sb.append(introspectedColumn.getEscapedColumnName());
+        		sb.append(" = "); //$NON-NLS-1$
+        		sb.append(introspectedColumn.getIbatisFormattedParameterClause());
+        		
+        		isNotNullElement.addElement(new TextElement(sb.toString()));
+        	}
         }
-
         if (ibatorContext.getPlugins().sqlMapDeleteGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }

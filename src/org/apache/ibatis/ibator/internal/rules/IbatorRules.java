@@ -43,6 +43,10 @@ public abstract class IbatorRules {
         this.introspectedTable = introspectedTable;
     }
     
+    public boolean generateCommonsWhere(){
+    	return tableConfiguration.isIncludeCommonsWhereEnabled();
+    }
+
     public boolean generateIncludeColumns(){
     	return tableConfiguration.isIncludeColumnsEnabled();
     }

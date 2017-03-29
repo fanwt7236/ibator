@@ -422,6 +422,7 @@ public class IbatorConfigurationParser {
 		String selectList = attributes.getProperty("selectList");
 		String generateModel = attributes.getProperty("generateModel");
 		String includeColumns = attributes.getProperty("includeColumns");
+		String includeCommonsWhereEnabled = attributes.getProperty("includeCommonsWhere");
 
 		if (StringUtility.stringHasValue(catalog)) {
 			tc.setCatalog(catalog);
@@ -488,6 +489,10 @@ public class IbatorConfigurationParser {
 		}
 
 		//TODO 设置配置 2017-02-13
+		if (StringUtility.stringHasValue(includeCommonsWhereEnabled)) {
+			tc.setIncludeCommonsWhereEnabled(StringUtility.isTrue(includeCommonsWhereEnabled));
+		}
+
 		if (StringUtility.stringHasValue(includeColumns)) {
 			tc.setIncludeColumnsEnabled(StringUtility.isTrue(includeColumns));
 		}

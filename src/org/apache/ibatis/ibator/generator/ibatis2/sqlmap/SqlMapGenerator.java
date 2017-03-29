@@ -29,6 +29,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.DeleteByPrimar
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.DeleteElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.ExampleWhereClauseElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.IncludeColumnsSqlElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.IncludeCommonsWhereElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.InsertBatchElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.InsertElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.InsertSelectiveElementGenerator;
@@ -97,6 +98,7 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
 		
 		// TODO 新增方法 2017-02-13
 		addColumnsSqlMethod(answer);
+		addCommonsWhereMethod(answer);
 		addInsertSimpleMethod(answer);// insert方法和原有的insertSelective方法一致，直接复用
 		addInsertBatchMethod(answer);
 		addUpdateMethod(answer);
@@ -107,6 +109,13 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
 		addSelectListMethod(answer);
 
 		return answer;
+	}
+
+	private void addCommonsWhereMethod(XmlElement answer) {
+		if(introspectedTable.getRules().generateCommonsWhere()){
+			IncludeCommonsWhereElementGenerator elementGenerator = new IncludeCommonsWhereElementGenerator();
+			initializeAndExecuteGenerator(elementGenerator, answer);
+		}
 	}
 
 	private void addColumnsSqlMethod(XmlElement answer) {

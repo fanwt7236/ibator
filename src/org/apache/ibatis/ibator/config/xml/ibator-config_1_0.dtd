@@ -177,6 +177,7 @@
   selectByPrimaryKeyQueryId CDATA #IMPLIED
   selectByExampleQueryId CDATA #IMPLIED
   includeColumns CDATA #IMPLIED
+  includeCommonsWhere CDATA #IMPLIED
   insert CDATA #IMPLIED
   insertBatch CDATA #IMPLIED
   update CDATA #IMPLIED

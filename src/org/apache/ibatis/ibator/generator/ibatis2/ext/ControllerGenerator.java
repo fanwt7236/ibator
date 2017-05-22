@@ -52,8 +52,9 @@ public class ControllerGenerator extends AbstractJavaGenerator {
 		method.setReturnType(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"));
 		method.addAnnotation("@RequestMapping(\"/delete\")");
 		method.setName("delete");
-		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
+//		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
 		method.addParameter(new Parameter(this.introspectedTable.getBaseRecordType(), paramBaseRecord()));
+		method.addBodyLine("ModelMap map = new ModelMap();");
 		method.addBodyLine("this." + daoField.getName() + ".delete(" + paramBaseRecord() + ");");
 		method.addBodyLine("return map;");
 		topLevelClass.addMethod(method);
@@ -66,8 +67,9 @@ public class ControllerGenerator extends AbstractJavaGenerator {
 		method.setReturnType(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"));
 		method.addAnnotation("@RequestMapping(\"/queryById\")");
 		method.setName("queryById");
-		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
+//		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
 		method.addParameter(new Parameter(this.introspectedTable.getBaseRecordType(), paramBaseRecord()));
+		method.addBodyLine("ModelMap map = new ModelMap();");
 		method.addBodyLine("return map.addAttribute(\"obj\", this." + daoField.getName() + ".queryById("
 				+ paramBaseRecord() + "));");
 		topLevelClass.addMethod(method);
@@ -80,8 +82,9 @@ public class ControllerGenerator extends AbstractJavaGenerator {
 		method.setReturnType(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"));
 		method.setName("query");
 		method.addAnnotation("@RequestMapping({ \"/query\", \"/queryPage\" })");
-		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
+//		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
 		method.addParameter(new Parameter(this.introspectedTable.getBaseRecordType(), paramBaseRecord()));
+		method.addBodyLine("ModelMap map = new ModelMap();");
 		method.addBodyLine(
 				"return map.addAttribute(\"list\", this." + daoField.getName() + ".query(" + paramBaseRecord() + "));");
 		topLevelClass.addMethod(method);
@@ -94,8 +97,9 @@ public class ControllerGenerator extends AbstractJavaGenerator {
 		method.setReturnType(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"));
 		method.setName("modify");
 		method.addAnnotation("@RequestMapping(\"/modify\")");
-		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
+//		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
 		method.addParameter(new Parameter(this.introspectedTable.getBaseRecordType(), paramBaseRecord()));
+		method.addBodyLine("ModelMap map = new ModelMap();");
 		method.addBodyLine("this." + daoField.getName() + ".modify(" + paramBaseRecord() + ");");
 		method.addBodyLine("return map;");
 		topLevelClass.addMethod(method);
@@ -108,8 +112,9 @@ public class ControllerGenerator extends AbstractJavaGenerator {
 		method.setReturnType(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"));
 		method.setName("add");
 		method.addAnnotation("@RequestMapping(\"/add\")");
-		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
+//		method.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.ModelMap"), "map"));
 		method.addParameter(new Parameter(this.introspectedTable.getBaseRecordType(), paramBaseRecord()));
+		method.addBodyLine("ModelMap map = new ModelMap();");
 		method.addBodyLine("this." + daoField.getName() + ".add(" + paramBaseRecord() + ");");
 		method.addBodyLine("return map;");
 		topLevelClass.addMethod(method);
